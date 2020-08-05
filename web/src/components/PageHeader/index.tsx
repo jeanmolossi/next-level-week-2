@@ -22,6 +22,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, children }) => {
 
       <div className="header-content">
         <strong>{title}</strong>
+      
+        {children}
       </div>
     </header>
   );
