@@ -1,39 +1,57 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
+import api from '../../services/api';
+
 import './styles.css';
 
-const TeacherItem: React.FC = () => {
+export interface Teacher {
+  id: number;
+  name: string;
+  avatar: string;
+  bio: string;
+  whatsapp: string;
+  subject: string;
+  cost: number;
+}
+
+interface TeacherItemProps {
+  teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+
+  const formattedCost = useMemo(() => {
+    const price = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(teacher.cost);
+    return price;
+  }, [teacher.cost])
+
+  const handleCreateConnection = useCallback(() => {
+    api.post(`connections`, { user_id: teacher.id });
+  }, [teacher.id]);
+
   return (
     <article className="teacher-item">
       <header>
-
-        <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt=""/>
+        <img src={teacher.avatar} alt={teacher.name} />
         <div>
-          <strong>Jean Carlos</strong>
-          <span>Química</span>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
         </div>
-
       </header>
 
-
-      <p>
-        Entusiasta das melhores tecnologias de química avançada.
-        <br /><br />
-        Apaixonado por expordir coisas em laboratório e por mudar a vida das pessoas através de experiências. Mais de 200.000 pessoas já passaram por uma das minhas explosões
-      </p>
+      <p>{teacher.bio}</p>
 
       <footer>
-
         <p>
           Preço/hora
-          <strong>R$ 89,97</strong>
+          <strong>{formattedCost}</strong>
         </p>
-        <button type="button">
+        <a onClick={handleCreateConnection} href={`https://wa.me/+55${teacher.whatsapp}`} target="_blank">
           <img src={whatsappIcon} alt="Whatsapp" />
           Entrar em contato
-        </button>
+        </a>
       </footer>
     </article>
   );
