@@ -1,4 +1,4 @@
-# Next Level Week \#2
+# Next Level Week \#2 - V.1.9
 ---
 
 # :pushpin: Table of Contents
