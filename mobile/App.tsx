@@ -13,7 +13,9 @@ const App: React.FC = () => {
     Archivo_700Bold,
     Poppins_400Regular,
     Poppins_600SemiBold
-  })
+  });
+
+  console.log(fontsLoaded);
 
   if(!fontsLoaded){
     return <AppLoading />;

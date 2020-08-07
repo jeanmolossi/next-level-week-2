@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Archivo_700Bold',
     color: '#fff',
     fontSize: 24,
-    
+    width: 140,
+    marginVertical: 24
   }
 
 });
