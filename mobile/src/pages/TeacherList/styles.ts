@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 
   searchButtonText: {
     color: '#fff',
-    fontFamily: 'Archivo_ 700Bold',
+    fontFamily: 'Archivo_700Bold',
     fontSize: 16
   },  
 
