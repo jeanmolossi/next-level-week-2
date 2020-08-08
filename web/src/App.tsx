@@ -1,11 +1,16 @@
 import React from 'react';
 
-import './assets/styles/global.css';
 import Routes from './Routes';
+
+import AppProviders from './contexts';
+
+import './assets/styles/global.css';
 
 function App() {
   return (
-    <Routes />
+    <AppProviders>
+      <Routes />
+    </AppProviders>
   );
 }
 

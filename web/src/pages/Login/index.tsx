@@ -1,13 +1,21 @@
 import React, { useCallback, useState, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import logoImg from '../../assets/images/logo.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
+import api from '../../services/api';
+
+import { useAuth } from '../../contexts/Auth';
+
 import './styles.css';
 
 const Login: React.FC = () => {
+  const history = useHistory();
+
+  const { signIn } = useAuth();
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,8 +25,13 @@ const Login: React.FC = () => {
     setIsPasswordVisible(!isPasswordVisible);
   }, [isPasswordVisible])
 
-  const handleSubmit = useCallback((e: FormEvent) => {
+  const handleSubmit = useCallback(async (e: FormEvent) => {
     e.preventDefault();
+
+    const signedSuccesful = await signIn({ email, password, rememberPassword });
+    if(signedSuccesful){
+      history.push('/home')
+    }
 
     console.log({
       email,
@@ -49,6 +62,7 @@ const Login: React.FC = () => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   type="text"
+                  required
                 />
                 <span>E-mail</span>
               </div>
@@ -57,6 +71,7 @@ const Login: React.FC = () => {
                   type={isPasswordVisible ? 'text' : 'password'}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  required
                 />
                 <span>Senha</span>
                 <button type="button" onClick={togglePasswordVisible}>
