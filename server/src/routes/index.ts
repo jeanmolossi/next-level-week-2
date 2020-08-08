@@ -1,10 +1,12 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { verify } from 'jsonwebtoken';
+import { Router, Request, Response, NextFunction, response } from 'express';
+
 
 import ClassesController from '../controllers/ClassesController';
 import ConnectionsController from 'controllers/ConnectionsController';
 import UsersController from 'controllers/UsersController';
 import SessionsController from 'controllers/SessionsController';
+
+import AuthMiddleware from './AuthMiddleware';
 
 const appRoutes = Router();
 
@@ -17,21 +19,7 @@ appRoutes.post('/users', usersController.create);
 
 appRoutes.post('/sessions', sessionsController.create);
 
-appRoutes.use((request: Request, response: Response, next: NextFunction) => {
-  const headerToken = request.headers.authorization;
-  if(!headerToken)
-    return response.status(401).json({
-      error: 'Authorization',
-      message: 'Token is missing'
-    });
-
-  const [,token] = headerToken.split('Bearer ');
-
-  const tokenDecoded = verify(token, 'secret_key')
-
-  console.log(tokenDecoded);
-  
-});
+appRoutes.use(AuthMiddleware);
 
 appRoutes.post('/classes', classesController.create)
 appRoutes.get('/classes', classesController.index)
