@@ -49,6 +49,10 @@ textarea {
   color: var(--color-text-base);
 }
 
+button:not(:disabled) {
+  cursor: pointer;
+}
+
 .container {
   width: 90vw;
   max-width: 700px;

@@ -1,13 +1,17 @@
 import React, { useCallback, useState, FormEvent, useMemo } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import logoImg from '../../assets/images/logo.svg';
 import goBackIcon from '../../assets/images/icons/back.svg';
 
+import api from '../../services/api';
+
 import './styles.css';
 
 const SignUp: React.FC = () => {
+  const history = useHistory();
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
@@ -25,11 +29,23 @@ const SignUp: React.FC = () => {
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
 
+    api.post(`users`, {
+      name, lastname, email, password
+    })
+      .then(response => {
+        history.push('/register-finished')
+      })
+      .catch((err) => {
+        alert('Ocorreu um erro, não foi possível cadastrar')
+      })
+
     console.log({
+      name,
+      lastname,
       email,
       password,
     });
-  }, [email, password]);
+  }, [name, lastname, email, password]);
 
   return (
     <div className="register-screen">
