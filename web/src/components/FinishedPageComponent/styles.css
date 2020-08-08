@@ -1,7 +1,7 @@
 .register-complete-container {
   width: 100vw;
   height: 100vh;
-  background: var(--color-primary) url('../../../assets/images/success-background.svg') center center no-repeat;
+  background: var(--color-primary) url('../../assets/images/success-background.svg') center center no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

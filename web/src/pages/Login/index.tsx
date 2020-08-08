@@ -76,7 +76,7 @@ const Login: React.FC = () => {
                 <label htmlFor="remember-checkbox" className="remeber-check-label">Lembrar-me</label>
               </div>
               <div className="forgot-password">
-                <a href="#">Esqueci minha senha</a>
+                <Link to="/forgot-password">Esqueci minha senha</Link>
               </div>
             </section>
 

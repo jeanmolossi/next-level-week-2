@@ -1,22 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FiCheck } from 'react-icons/fi';
 
-import './styles.css';
+import FinishedPageComponent from '../../../components/FinishedPageComponent';
 
 const RegisterComplete: React.FC = () => {
   return (
-    <div className="register-complete-container">
-      <section className="middle-content">
-        <div className="icon-content">
-          <FiCheck />
-        </div>
-        <h1>Cadastro concluído</h1>
-        <p>Agora você faz parte da plataforma da Proffy. Tenha uma ótima experiência.</p>
-
-        <Link to="/">Fazer login</Link>
-      </section>
-    </div>
+    <FinishedPageComponent
+      title="Cadastro concluído"
+      description="Agora você faz parte da plataforma da Proffy.
+      Tenha uma ótima experiência."
+      textButton="Fazer login"
+    />
   );
 }
 
