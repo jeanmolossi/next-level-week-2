@@ -9,27 +9,66 @@ interface AuthData {
   rememberPassword: boolean;
 }
 
+interface User {
+  id: number;
+  name: string;
+  avatar: string;
+}
+
 interface AuthContextProps {
-  user: any;
+  user: User;
   signIn(data: AuthData): Promise<boolean>;
+  signOut(): void;
 }
 
 const authContext = createContext({} as AuthContextProps);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(() => {
+    let userStoraged = localStorage.getItem('@proffy:user');
+    let tokenStoraged = localStorage.getItem('@proffy:token');
+
+    if(!tokenStoraged)
+      tokenStoraged = sessionStorage.getItem('@proffy:token');
+
+    if(!tokenStoraged)
+      return {} as User;
+
+    const parsedToken = JSON.parse(tokenStoraged);
+    
+    if(!userStoraged)
+      userStoraged = sessionStorage.getItem('@proffy:user');
+
+    if(!userStoraged)
+      return {} as User;
+
+    api.defaults.headers.authorization = `Bearer ${parsedToken}`;
+
+    const parsedUser = JSON.parse(userStoraged);
+    return parsedUser;
+  });
 
   const signIn = useCallback(async ({ email, password, rememberPassword}) => {
     return api.post(`sessions`, {
       email, password, rememberPassword
     })
       .then(response => {
-        const isTokenValid = verify(response.data.token, 'secret_key');
+        const { user, token } = response.data;
+
+        const isTokenValid = verify(token, 'secret_key');
         if(!isTokenValid) throw new Error('Invalid token');
 
-        api.defaults.headers.Authorization = `Bearer ${response.data.token}`
+        if(rememberPassword){
+          localStorage.setItem('@proffy:token', JSON.stringify(token));
+          localStorage.setItem('@proffy:user', JSON.stringify(user));
+        }else{
+          sessionStorage.setItem('@proffy:token', JSON.stringify(token));
+          sessionStorage.setItem('@proffy:user', JSON.stringify(user));
+        }
+        
+        api.defaults.headers.authorization = token
+        setUser(user);        
 
-        setUser(response.data);
         return true;
       })
       .catch(err => {
@@ -38,8 +77,16 @@ const AuthProvider: React.FC = ({ children }) => {
       });
   }, []);
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem('@proffy:user');
+    localStorage.removeItem('@proffy:token');
+    sessionStorage.removeItem('@proffy:user');
+    sessionStorage.removeItem('@proffy:token');
+    setUser({} as User);
+  }, []);
+
   return (
-    <authContext.Provider value={{ signIn, user }}>
+    <authContext.Provider value={{ user, signIn, signOut }}>
       {children}
     </authContext.Provider>
   );

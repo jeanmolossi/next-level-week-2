@@ -9,10 +9,12 @@ import giveClassesIcon from '../../assets/images/icons/give-classes.svg'
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg'
 
 import api from '../../services/api';
+import { useAuth } from '../../contexts/Auth';
 
 import './styles.css';
 
 const Landing: React.FC = () => {
+  const { signOut } = useAuth();
 
   const [totalConnections, setTotalConnections] = useState(0);
 
@@ -45,6 +47,8 @@ const Landing: React.FC = () => {
             <img src={giveClassesIcon} alt="Dar aulas"/>
             Dar aulas
           </Link>
+
+          <button type="button" onClick={() => signOut()}>Out</button>
         </div>
 
         <span className="total-connections">

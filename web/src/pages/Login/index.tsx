@@ -14,7 +14,7 @@ import './styles.css';
 const Login: React.FC = () => {
   const history = useHistory();
 
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -28,16 +28,9 @@ const Login: React.FC = () => {
   const handleSubmit = useCallback(async (e: FormEvent) => {
     e.preventDefault();
 
-    const signedSuccesful = await signIn({ email, password, rememberPassword });
-    if(signedSuccesful){
-      history.push('/home')
-    }
-
-    console.log({
-      email,
-      password,
-      rememberPassword
-    });
+    await signIn({ email, password, rememberPassword });
+    console.log(user)
+    
   }, [email, password, rememberPassword]);
 
   return (
