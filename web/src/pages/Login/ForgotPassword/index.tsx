@@ -1,6 +1,5 @@
 import React, { useCallback, useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import logoImg from '../../../assets/images/logo.svg';
 import goBackIcon from '../../../assets/images/icons/back.svg';

@@ -13,7 +13,6 @@ const SignUp: React.FC = () => {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberPassword, setRememberPassword] = useState(false);
 
   const disabledCalc = useMemo(() => {
     return (!email || !password || !name || !lastname)
@@ -29,9 +28,8 @@ const SignUp: React.FC = () => {
     console.log({
       email,
       password,
-      rememberPassword
     });
-  }, [email, password, rememberPassword]);
+  }, [email, password]);
 
   return (
     <div className="register-screen">
