@@ -1,11 +1,11 @@
 import React, { useCallback, useState, FormEvent, useMemo } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 import logoImg from '../../assets/images/logo.svg';
 import goBackIcon from '../../assets/images/icons/back.svg';
 
 import './styles.css';
-import { Link } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
