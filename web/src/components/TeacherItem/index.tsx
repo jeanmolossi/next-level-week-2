@@ -27,6 +27,10 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
     return price;
   }, [teacher.cost])
 
+  const teacherAvatar = useMemo(() =>
+    teacher.avatar || `https://api.adorable.io/avatars/60/placeholder.png`
+  ,[teacher.avatar]);
+
   const handleCreateConnection = useCallback(() => {
     api.post(`connections`, { user_id: teacher.id });
   }, [teacher.id]);
@@ -34,7 +38,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
   return (
     <article className="teacher-item">
       <header>
-        <img src={teacher.avatar} alt={teacher.name} />
+        <img src={teacherAvatar} alt={teacher.name} />
         <div>
           <strong>{teacher.name}</strong>
           <span>{teacher.subject}</span>

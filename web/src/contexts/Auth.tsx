@@ -12,6 +12,7 @@ interface AuthData {
 interface User {
   id: number;
   name: string;
+  email: string;
   lastname: string;
   whatsapp: string;
   bio: string;
@@ -52,7 +53,7 @@ const AuthProvider: React.FC = ({ children }) => {
     if(!parsedUser.avatar)
       return {
         ...parsedUser,
-        avatar: `https://api.adorable.io/avatars/60/${(parsedUser.name).toString().replace(/ /gim, '')}.png`
+        avatar: `https://api.adorable.io/avatars/160/${(parsedUser.name).toString().replace(/ /gim, '')}.png`
       } as User;
 
     return parsedUser;

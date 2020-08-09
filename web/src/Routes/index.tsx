@@ -11,6 +11,7 @@ import ForgotPassword from '../pages/Login/ForgotPassword';
 import ForgotPasswordFinished from '../pages/Login/ForgotPassword/ForgotPasswordFinished';
 import SignUp from '../pages/SignUp';
 import RegisterComplete from '../pages/SignUp/RegisterComplete';
+import Profile from '../pages/Profile';
 
 const Routes: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const Routes: React.FC = () => {
         <Route path="/home" component={Landing} isPrivate />
         <Route path="/study" component={TeacherList} isPrivate />
         <Route path="/give-classes" component={TeacherForm} isPrivate />
+        <Route path="/profile" component={Profile} isPrivate />
 
       </Switch>
     </Router>

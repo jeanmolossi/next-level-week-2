@@ -6,6 +6,10 @@
   font-size: 1.4rem;
 }
 
+.textarea-block label > small {
+  opacity: 0.8;
+}
+
 .textarea-block + .textarea-block {
   margin-top: 1.4rem;
 }
@@ -21,7 +25,6 @@
   outline: 0;
   resize: vertical;
   padding: 1.6rem;
-  font: 1.6rem Archivo;
 }
 
 .textarea-block::after {

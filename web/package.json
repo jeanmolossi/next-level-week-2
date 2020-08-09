@@ -19,7 +19,8 @@
     "react-scripts": "3.4.1",
     "react-text-mask": "^5.4.3",
     "text-mask-addons": "^3.8.0",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "uuidv4": "^6.2.2"
   },
   "scripts": {
     "start": "react-scripts start",

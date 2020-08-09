@@ -98,18 +98,11 @@ const TeacherForm: React.FC = () => {
               <Input
                 label="Whatsapp"
                 name="whatsapp"
-                maskProps={{
-                  mask: [
-                    '(', /[1-9]/, /\d/, ')',
-                    ' ',
-                    /\d/, /\d/, /\d/,/\d/,/\d/,
-                    '-',
-                    /\d/, /\d/, /\d/, /\d/
-                  ]
-                }}
+                maskProps={{}}
+                defaultMask="tel"
                 value={whatsapp}
                 onChange={(e) => setWhatsapp(e.target.value)}
-                placeholder="(__) 9____-____"
+                placeholder="(__) _ ____ ____"
               />
             </header>
 
@@ -148,7 +141,7 @@ const TeacherForm: React.FC = () => {
                 label="Custo da sua hora por aula"
                 name="cost"
                 value={cost}
-                currency={true}
+                defaultMask="currency"
                 maskProps={{}}
                 onChange={(e) => setCost(e.target.value)}
               />

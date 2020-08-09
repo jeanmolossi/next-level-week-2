@@ -1,0 +1,225 @@
+#page-profile {
+  width: 100vw;
+}
+
+#page-profile  .page-profile-content {
+  display: flex;
+  background: var(--color-primary) url("../../assets/images/success-background.svg") center center no-repeat;
+  background-size: cover;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5.6rem;
+}
+
+.page-profile-content  header {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-profile-content  header  .avatar {
+  position: relative;
+}
+
+.page-profile-content  header  .avatar  button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 4.8rem;
+  height: 4.8rem;
+  outline: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-button-text);
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-profile-content  header  .avatar  img{
+  width: 14rem;
+  height: 14rem;
+  border-radius: 50%;
+}
+
+.page-profile-content  header  .name-subject {
+  text-align: center;
+  color: var(--color-text-in-primary);
+}
+
+#page-profile main {
+  max-width: 76.8rem;
+  margin: -3.6rem 1.6rem 0;
+  background: var(--color-box-base);
+  border-radius: 0.8rem;
+  padding: 2.4rem;
+}
+
+#page-profile main form fieldset{
+  border: 0;
+  margin-bottom: 5.6rem;
+}
+
+#page-profile main form fieldset  legend {
+  width: 100%;
+  border-bottom: 1px solid var(--color-line-in-white);
+  font: 700 2.4rem Archivo;
+  color: var(--color-text-title);
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.6rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#page-profile main form fieldset  legend  button {
+  border: 0;
+  background: none;
+  color: var(--color-primary);
+  font: 700 1.6rem Archivo;
+}
+
+#page-profile main form fieldset .email-whatsapp {
+  margin: 1.6rem 0;
+}
+
+.schedule-item{
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-item  .remove-item {  
+  border: 0;
+  background: var(--color-box-base);
+  color: var(--color-text-deletar);
+  font: 700 1.4rem Archivo;
+  margin-top: 2.4rem;
+  align-self: center;
+  position: relative;
+  outline: 0;
+}
+
+.remove-item::after, .remove-item::before {
+  content: '';
+  position: absolute;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--color-line-in-white);
+  width: 100%;
+  right: calc(100% + 2.4rem);
+  top: 50%;
+}
+
+.remove-item::before {
+  right: auto;
+  left: calc(100% + 2.4rem);
+  transform: translateX(0);
+}
+
+#page-profile main footer {
+  padding: 4rem 2.4rem;
+  background: var(--color-box-footer);
+  border-top: 1px solid var(--color-line-in-white);
+  margin-top: 6.4rem;
+}
+
+#page-profile main footer p {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  color: var(--color-text-component);
+}
+
+#page-profile main footer p img {
+  margin-right: 2rem;
+}
+
+#page-profile main footer button {
+  width: 100%;
+  height: 5.6rem;
+  background: var(--color-secondary);
+  color: var(--color-button-text);
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font: 700 1.6rem Archivo;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  margin-top: 3.2rem;
+}
+
+#page-profile main footer button:hover {
+  background: var(--color-secondary-dark);
+}
+
+@media (min-width:700px) {
+  #page-profile {
+    max-width: 100vw;
+  }
+
+  #page-profile  .page-profile-content {
+    margin-top: -24rem;
+  }
+
+  #page-profile main {
+    margin: -3.6rem auto 3.6rem ;
+  }
+
+  #page-profile main form fieldset .name-lastname,
+  #page-profile main form fieldset .email-whatsapp {
+    display: flex;
+    align-items: baseline;
+    column-gap: 2.4rem;
+  }
+
+  .subject-cost  .inputs-config {
+    display: flex;
+  }
+
+  .subject-cost  .inputs-config  div:first-child {
+    min-width: 38rem;
+  }
+
+  .schedule-item {
+    margin: 2.4rem;
+  }
+
+  .schedule-item .align-adjust {
+    display: flex;
+    column-gap: 2.4rem;
+  }
+  
+  .align-adjust .time-inputs {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 2.4rem;
+  }
+
+  .time-inputs > div:last-child {
+    margin-top: 0;
+  }
+
+  #page-profile main footer {
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #page-profile main  footer p {
+    justify-content: space-between;
+  }
+
+  #page-profile main footer button {
+    width: 20rem;
+    margin-top: 0;
+  }
+}

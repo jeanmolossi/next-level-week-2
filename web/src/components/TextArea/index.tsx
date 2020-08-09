@@ -7,11 +7,14 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
 }
 
-const Textarea: React.FC<TextareaProps> = ({ name, label, ...rest }) => {
+const Textarea: React.FC<TextareaProps> = ({ name, label, maxLength = 300, ...rest }) => {
   return (
     <div className="textarea-block">
-      <label htmlFor={name}>{label}</label>
-      <textarea id={name} {...rest} />
+      <label htmlFor={name}>
+        {label}{' '}
+        {maxLength && <small>(Máximo {maxLength} caracteres)</small>}
+      </label>
+      <textarea id={name} maxLength={maxLength} {...rest} />
     </div>
   );
 }
