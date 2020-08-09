@@ -72,7 +72,11 @@ const TeacherForm: React.FC = () => {
 
   return (
     <div id="page-teacher-form" className="container">
-      <PageHeader title="Que incrível que você quer dar aulas" description="O primeiro passo é preencher esse formulário de inscrição" />
+      <PageHeader
+        title="Que incrível que você quer dar aulas"
+        description="O primeiro passo é preencher esse formulário de inscrição"
+        location="Dar aulas"
+      />
 
       <main>
         <form onSubmit={handleCreateClass}>

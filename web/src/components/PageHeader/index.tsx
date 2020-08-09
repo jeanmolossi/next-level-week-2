@@ -14,9 +14,10 @@ interface MenuProps {
 interface PageHeaderProps {
   title: string;
   description?: string;
+  location?: string;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, description, children }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, description, location, children }) => {
   const { pathname } = useLocation();
 
   const [menuProps, setMenuProps] = useState({} as MenuProps);
@@ -38,11 +39,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, description, children })
         <Link to="/">
           <img src={backIcon} alt="Back"/>
         </Link>
-        {menuProps && menuProps.to && (
-          <Link to={menuProps.to}>
-            {menuProps.text}
-          </Link>
-        )}
+        {location && <>{location}</>}
         <Link to="/">
           <img src={logoSvg} alt="Proffy" />
         </Link>

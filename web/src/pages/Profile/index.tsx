@@ -41,7 +41,7 @@ const Profile: React.FC = () => {
   }, [scheduleItems]);
 
   const handleAddNewScheduleItem = useCallback(() => {
-    const dayStart = scheduleItems.length
+    const dayStart = scheduleItems.length;
     setScheduleItems([...scheduleItems, { week_day: dayStart, from: '', to: '' }])
   }, [scheduleItems]);
   
@@ -56,7 +56,7 @@ const Profile: React.FC = () => {
 
   return (
     <div id="page-profile" className="container">
-      <PageHeader title="" />
+      <PageHeader title="" location="Meu perfil" />
       <div className="page-profile-content">
         <header>
           <div className="avatar">

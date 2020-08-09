@@ -11,18 +11,18 @@
   padding-bottom: 5.6rem;
 }
 
-.page-profile-content  header {
+.page-profile-content header {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.page-profile-content  header  .avatar {
+.page-profile-content header  .avatar {
   position: relative;
 }
 
-.page-profile-content  header  .avatar  button {
+.page-profile-content header  .avatar  button {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -81,6 +81,10 @@
   background: none;
   color: var(--color-primary);
   font: 700 1.6rem Archivo;
+}
+
+#page-profile main form .subject-cost > .inputs-config > div:last-child {
+  margin-top: 2.4rem;
 }
 
 #page-profile main form fieldset .email-whatsapp {
@@ -182,6 +186,7 @@
 
   .subject-cost  .inputs-config {
     display: flex;
+    align-items: baseline;
   }
 
   .subject-cost  .inputs-config  div:first-child {

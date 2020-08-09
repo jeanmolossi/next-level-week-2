@@ -49,7 +49,10 @@ const TeacherList: React.FC = () => {
 
   return (
     <div id="page-teacher-list" className="container">
-      <PageHeader title="Estes são os proffys disponíveis">
+      <PageHeader
+        title="Estes são os proffys disponíveis"
+        location="Estudar"
+      >
         <form onSubmit={handleSubmitFilterForm} id="search-teachers">
 
           <Select
