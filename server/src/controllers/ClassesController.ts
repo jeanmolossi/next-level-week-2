@@ -52,8 +52,6 @@ export default class ClassesController {
 
   async create(request: Request, response: Response) {
     const {
-      name,
-      avatar,
       whatsapp,
       bio,
       subject,
@@ -64,17 +62,17 @@ export default class ClassesController {
     const transaction = await database.transaction();
   
     try {
-      const [user_id] = await transaction('users').insert({
-        name,
-        avatar,
-        whatsapp,
-        bio,
-      });
+      await transaction('users')
+        .where('id', '=', request.user.id)
+        .update({
+          whatsapp,
+          bio,
+        });
     
       const [class_id] = await transaction('classes').insert({
         subject, 
         cost,
-        user_id,
+        user_id: request.user.id,
       });
     
       const classSchedule = schedule.map((scheduleItem: ScheduleItem) => {
