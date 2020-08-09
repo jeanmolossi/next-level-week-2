@@ -1,4 +1,4 @@
-import React, { useState, useCallback, FormEvent } from 'react';
+import React, { useState, useCallback, FormEvent, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi';
 
 import PageHeader from '../../components/PageHeader';
@@ -38,6 +38,15 @@ const TeacherList: React.FC = () => {
     
   }, [subject, week_day, time]);
 
+  useEffect(() => {
+    api.get(`classes`)
+      .then(response => {
+        const teachersList = response.data;
+        
+        setTeachers(teachersList);
+      })
+  }, []);
+
   return (
     <div id="page-teacher-list" className="container">
       <PageHeader title="Estes são os proffys disponíveis">
@@ -60,30 +69,33 @@ const TeacherList: React.FC = () => {
               
             ]}
           />          
-          <Select
-            label="Dia da semana"
-            name="week_day"
-            value={week_day}
-            onChange={(e) => setWeekDay(e.target.value)}
-            options={[
-              { value: '0', label: 'Domingo' },
-              { value: '1', label: 'Segunda-feira' },
-              { value: '2', label: 'Terça-feira' },
-              { value: '3', label: 'Quarta-feira' },
-              { value: '4', label: 'Quinta-feira' },
-              { value: '5', label: 'Sexta-feira' },
-              { value: '6', label: 'Sábado' }
-            ]}
-          />  
-          <Input
-            label="Hora"
-            name="time"
-            type="time"
-            value={time}
-            onChange={(e) => {
-              setTime(e.target.value);
-            }}
-          />
+          
+          <div className="when-inputs-config">
+            <Select
+              label="Dia da semana"
+              name="week_day"
+              value={week_day}
+              onChange={(e) => setWeekDay(e.target.value)}
+              options={[
+                { value: '0', label: 'Domingo' },
+                { value: '1', label: 'Segunda-feira' },
+                { value: '2', label: 'Terça-feira' },
+                { value: '3', label: 'Quarta-feira' },
+                { value: '4', label: 'Quinta-feira' },
+                { value: '5', label: 'Sexta-feira' },
+                { value: '6', label: 'Sábado' }
+              ]}
+            />  
+            <Input
+              label="Hora"
+              name="time"
+              type="time"
+              value={time}
+              onChange={(e) => {
+                setTime(e.target.value);
+              }}
+            />
+          </div>
 
           <button type="submit">
             <FiSearch /> Buscar

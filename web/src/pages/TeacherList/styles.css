@@ -11,6 +11,12 @@
   color: var(--color-text-in-primary);
 }
 
+#search-teachers .when-inputs-config {
+  display: flex;
+  align-items: baseline;
+  column-gap: 1.6rem;
+}
+
 #page-teacher-list main {
   margin: 3.2rem auto;
   width: 90%;
