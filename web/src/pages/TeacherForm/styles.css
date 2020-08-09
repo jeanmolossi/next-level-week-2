@@ -9,10 +9,10 @@
 
 #page-teacher-form main {
   background: var(--color-box-base);
-  width: 100%;
+  width: 94%;
   max-width: 74rem;
   border-radius: 0.8rem;
-  margin: -3.2rem auto 3.2rem;
+  margin: -3.2rem 1.6rem 3.2rem;
   padding-top: 6.4rem;
   overflow: hidden;
 }
@@ -38,6 +38,32 @@
   border-bottom: 1px solid var(--color-line-in-white);
 }
 
+#page-teacher-form main fieldset > .your-data-header {
+  margin-bottom: 2.4rem;
+}
+
+.your-data-header > .data-header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.4rem;
+}
+
+.data-header-container > .proffy-avatar > img {
+  border-radius: 50%;
+  width: 6.4rem;
+  height: 6.4rem;
+  object-fit: cover;
+}
+
+.data-header-container > .proffy-name-subject {
+  margin-left: 2.4rem;
+}
+
+.proffy-name-subject > h1 {
+  color: var(--color-text-title);
+  font: 700 2rem Archivo, sans-serif;
+}
+
 #page-teacher-form main fieldset legend button {
   background: none;
   border: 0;
@@ -49,6 +75,17 @@
 
 #page-teacher-form main fieldset legend button:hover {
   color: var(--color-primary-dark);
+}
+
+.schedule-item > .time-inputs {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: 1.6rem;
+}
+
+.time-inputs > div {
+  flex: 1;
 }
 
 #page-teacher-form main fieldset .input-block + .textarea-block,
@@ -109,8 +146,27 @@
     margin-bottom: 0;
   }
 
+  #page-teacher-form main {
+    margin: -3.2rem auto 3.2rem;
+  }
+
   #page-teacher-form main fieldset {
     padding: 0 6.4rem;
+  }
+
+  #page-teacher-form main .your-data-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #page-teacher-form .subject-cost > .inputs-config {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .inputs-config > div:last-child {
+    margin-left: 1.6rem;
   }
 
   #page-teacher-form main .schedule-item {

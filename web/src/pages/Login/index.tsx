@@ -1,20 +1,17 @@
 import React, { useCallback, useState, FormEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import logoImg from '../../assets/images/logo.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
-
-import api from '../../services/api';
 
 import { useAuth } from '../../contexts/Auth';
 
 import './styles.css';
 
 const Login: React.FC = () => {
-  const history = useHistory();
 
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -29,9 +26,8 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     await signIn({ email, password, rememberPassword });
-    console.log(user)
     
-  }, [email, password, rememberPassword]);
+  }, [email, password, rememberPassword, signIn]);
 
   return (
     <div className="login-screen">

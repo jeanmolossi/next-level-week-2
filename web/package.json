@@ -17,6 +17,8 @@
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-text-mask": "^5.4.3",
+    "text-mask-addons": "^3.8.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -42,6 +44,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/react-router-dom": "^5.1.5"
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-text-mask": "^5.4.6"
   }
 }

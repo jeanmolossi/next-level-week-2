@@ -12,6 +12,9 @@ interface AuthData {
 interface User {
   id: number;
   name: string;
+  lastname: string;
+  whatsapp: string;
+  bio: string;
   avatar: string;
 }
 
@@ -45,6 +48,13 @@ const AuthProvider: React.FC = ({ children }) => {
     api.defaults.headers.authorization = `Bearer ${parsedToken}`;
 
     const parsedUser = JSON.parse(userStoraged);
+
+    if(!parsedUser.avatar)
+      return {
+        ...parsedUser,
+        avatar: `https://api.adorable.io/avatars/60/${(parsedUser.name).toString().replace(/ /gim, '')}.png`
+      } as User;
+
     return parsedUser;
   });
 

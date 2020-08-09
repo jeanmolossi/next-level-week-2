@@ -33,7 +33,7 @@ const Landing: React.FC = () => {
 
         <div className="page-landing-header">
           <Link to="/" className="user-avatar-name">
-            <img src="https://api.adorable.io/avatars/285/abott@adorable.png" />
+            <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="Proffy avatar" />
             Jean Carlos
           </Link>
 

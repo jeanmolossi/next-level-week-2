@@ -9,15 +9,15 @@ import Textarea from '../../components/TextArea';
 import Select from '../../components/Select';
 
 import api from '../../services/api';
+import { useAuth } from '../../contexts/Auth';
 
 import './styles.css'
 
 const TeacherForm: React.FC = () => {
   const history = useHistory();
+  const { user } = useAuth();
 
-  const [name, setName] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
+  const [whatsapp, setWhatsapp] = useState(user.whatsapp);
   const [bio, setBio] = useState('');
   
   const [subject, setSubject] = useState('');
@@ -46,8 +46,7 @@ const TeacherForm: React.FC = () => {
     e.preventDefault();
 
     api.post(`classes`, {
-      name,
-      avatar,
+      
       whatsapp,
       bio,
       subject,
@@ -61,15 +60,15 @@ const TeacherForm: React.FC = () => {
     });
 
     console.log({
-      name,
-      avatar,
       whatsapp,
       bio,
       subject,
       cost,
       scheduleItems
     })
-  }, [name, avatar, whatsapp, bio, subject, cost, scheduleItems, history]);
+  }, [whatsapp, bio, subject, cost, scheduleItems, history]);
+
+
 
   return (
     <div id="page-teacher-form" className="container">
@@ -80,26 +79,39 @@ const TeacherForm: React.FC = () => {
           <fieldset>
             <legend>Seus dados</legend>
 
-            <Input
-              label="Nome completo"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              />
+            <header className="your-data-header">
+              <div className="data-header-container">
+                <div className="proffy-avatar">
+                  <img src={user.avatar} alt="Avatar do proffy"/>
+                </div>
+                
+                <div className="proffy-name-subject">
+                  <h1>
+                    {user.name}
+                  </h1>
+                  <small>
+                    {subject}
+                  </small>
+                </div>
+              </div>
 
-            <Input
-              label="Avatar"
-              name="avatar"
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
+              <Input
+                label="Whatsapp"
+                name="whatsapp"
+                maskProps={{
+                  mask: [
+                    '(', /[1-9]/, /\d/, ')',
+                    ' ',
+                    /\d/, /\d/, /\d/,/\d/,/\d/,
+                    '-',
+                    /\d/, /\d/, /\d/, /\d/
+                  ]
+                }}
+                value={whatsapp}
+                onChange={(e) => setWhatsapp(e.target.value)}
+                placeholder="(__) 9____-____"
               />
-
-            <Input
-              label="Whatsapp"
-              name="whatsapp"
-              value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-            />
+            </header>
 
             <Textarea
               label="Biografia"
@@ -110,33 +122,37 @@ const TeacherForm: React.FC = () => {
 
           </fieldset>
 
-          <fieldset>
+          <fieldset className="subject-cost">
             <legend>Sobre a aula</legend>
 
-            <Select
-              label="Matéria"
-              name="subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              options={[
-                { value: 'Artes', label: 'Artes' },
-                { value: 'Biologia', label: 'Biologia' },
-                { value: 'Ciencias', label: 'Ciências' },
-                { value: 'Portugues', label: 'Português' },
-                { value: 'Educacao-fisica', label: 'Educação física' },
-                { value: 'Fisica', label: 'Física' },
-                { value: 'Matematica', label: 'Matemática' },
-                { value: 'Quimica', label: 'Química' },
-                
-              ]}
-            />
+            <section className="inputs-config">
+              <Select
+                label="Matéria"
+                name="subject"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                options={[
+                  { value: 'Artes', label: 'Artes' },
+                  { value: 'Biologia', label: 'Biologia' },
+                  { value: 'Ciencias', label: 'Ciências' },
+                  { value: 'Portugues', label: 'Português' },
+                  { value: 'Educacao-fisica', label: 'Educação física' },
+                  { value: 'Fisica', label: 'Física' },
+                  { value: 'Matematica', label: 'Matemática' },
+                  { value: 'Quimica', label: 'Química' },
+                  
+                ]}
+              />
 
-            <Input
-              label="Custo da sua hora por aula"
-              name="cost"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
-            />
+              <Input
+                label="Custo da sua hora por aula"
+                name="cost"
+                value={cost}
+                currency={true}
+                maskProps={{}}
+                onChange={(e) => setCost(e.target.value)}
+              />
+            </section>
 
           </fieldset>
 
@@ -164,21 +180,23 @@ const TeacherForm: React.FC = () => {
                     ]}
                   />
 
-                  <Input
-                    label="Das"
-                    name="from"
-                    type="time"
-                    value={scheduleItem.from}
-                    onChange={e => setScheduleItemValue(index, 'from', e.target.value)}
-                    />
+                  <div className="time-inputs">
+                    <Input
+                      label="Das"
+                      name="from"
+                      type="time"
+                      value={scheduleItem.from}
+                      onChange={e => setScheduleItemValue(index, 'from', e.target.value)}
+                      />
 
-                  <Input
-                    label="até"
-                    name="to"
-                    type="time"
-                    value={scheduleItem.to}
-                    onChange={e => setScheduleItemValue(index, 'to', e.target.value)}
-                  />
+                    <Input
+                      label="até"
+                      name="to"
+                      type="time"
+                      value={scheduleItem.to}
+                      onChange={e => setScheduleItemValue(index, 'to', e.target.value)}
+                    />
+                  </div>
                 </div>
               ))}
           </fieldset>

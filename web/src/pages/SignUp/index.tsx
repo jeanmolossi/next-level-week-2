@@ -45,7 +45,7 @@ const SignUp: React.FC = () => {
       email,
       password,
     });
-  }, [name, lastname, email, password]);
+  }, [name, lastname, email, password, history]);
 
   return (
     <div className="register-screen">
