@@ -22,6 +22,12 @@
   width: 90%;
 }
 
+#page-teacher-list main > .nothing-found {
+  max-width: 28rem;
+  text-align: center;
+  margin: 10.6rem auto;
+}
+
 #page-teacher-list form > button {
   display: flex;
   align-items: center;

@@ -39,7 +39,7 @@ const TeacherList: React.FC = () => {
   }, [subject, week_day, time]);
 
   useEffect(() => {
-    api.get(`classes`)
+    api.get(`classes/all`)
       .then(response => {
         const teachersList = response.data;
         
@@ -105,9 +105,15 @@ const TeacherList: React.FC = () => {
       </PageHeader>
 
       <main>
-        {teachers.map((teacher: Teacher) => (
-          <TeacherItem key={teacher.id} teacher={teacher} />
-        ))}
+        {teachers.length > 0
+          ? teachers.map((teacher: Teacher) => (
+            <TeacherItem key={teacher.id} teacher={teacher} />
+          ))
+          : (
+            <p className="nothing-found">
+              Nenhum professor encontrado com sua pesquisa.
+            </p>
+        )}
       </main>
     </div>
   );
