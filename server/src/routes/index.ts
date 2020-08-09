@@ -23,6 +23,7 @@ appRoutes.use(AuthMiddleware);
 
 appRoutes.post('/classes', classesController.create)
 appRoutes.get('/classes', classesController.index)
+appRoutes.get('/classes/all', classesController.show)
 
 appRoutes.post('/connections', connectionsController.create)
 appRoutes.get('/connections', connectionsController.index)
