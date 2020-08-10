@@ -67,7 +67,7 @@
 
   #search-teachers {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 2fr 1fr;
     column-gap: 2.4rem;
     position: absolute;
     bottom: -28px;
