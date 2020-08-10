@@ -1,0 +1,13 @@
+{
+  "name": "proffy.v1.9",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "workspaces": ["eslint-config", "server", "web", "mobile"],
+  "repository": "https://github.com/jeanmolossi/next-level-week-2.git",
+  "author": "jeanmolossi <jean.carlosmolossi@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@proffy.v1.9/eslint-config": "*"
+  }
+}
