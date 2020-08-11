@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, FormEvent } from 'react';
 import { uuid } from 'uuidv4';
 import { FiCamera } from 'react-icons/fi';
 
@@ -12,9 +12,11 @@ import Textarea from '../../components/TextArea';
 import { useAuth } from '../../contexts/Auth';
 
 import './styles.css';
+import api from '../../services/api';
+import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const [name, setName] = useState(user.name);
   const [lastname, setLastname] = useState(user.lastname);
@@ -23,10 +25,10 @@ const Profile: React.FC = () => {
   const [bio, setBio] = useState(user.bio);
 
   const [subject, setSubject] = useState('');
-  const [cost, setCost] = useState('');
+  const [cost, setCost] = useState('R$ 0');
 
   const [scheduleItems, setScheduleItems] = useState([
-    { week_day: 0, from: '08:00', to: '14:00' },
+    { week_day: 1, from: '08:00', to: '14:00' },
   ]);
 
   const setScheduleItemValue = useCallback((position: number, field: string, value: string) => {
@@ -44,15 +46,64 @@ const Profile: React.FC = () => {
     const dayStart = scheduleItems.length;
     setScheduleItems([...scheduleItems, { week_day: dayStart, from: '', to: '' }])
   }, [scheduleItems]);
-  
+
   const handleRemoveScheduleItem = useCallback((index) => {
-    if(scheduleItems.length > 1){
-      scheduleItems.splice(index, 1);
-      setScheduleItems([...scheduleItems]);
-    }
+    scheduleItems.splice(index, 1);
+    setScheduleItems([...scheduleItems]);
   }, [scheduleItems]);
-  
-  const handleUpdateProfile = useCallback(() => {}, []);
+
+  const handleUpdateProfile = useCallback((e: FormEvent) => {
+    e.preventDefault();
+
+    let costSanitize = cost || 'R$ 0,00';
+    let whatsSanitize = whatsapp || '(__)';
+
+    const costSanitized = Number(costSanitize.replace(/(r\$|( )|'.')/gim, '').replace(',', '.'));
+    const whatsSanitized = whatsSanitize.replace(/(\(|\)|( )|_)/gim, '');
+
+    api.put(`profile/update`, {
+      name,
+      lastname,
+      email,
+      whatsapp: whatsSanitized,
+      bio,
+      subject,
+      cost: costSanitized,
+      schedules: scheduleItems
+    }).then(response => {
+      console.log(response.data)
+      alert('Atualização salva com sucesso!')
+    });
+
+  }, [bio, cost, email, lastname, name, scheduleItems, subject, whatsapp]);
+
+  useEffect(() => {
+    api.get(`profile`).then(response => {
+      const { subject, cost, schedules } = response.data;
+
+      const costToBrl = cost ? cost.toString().replace('.', ',') : 0.00
+
+      const parsedSchedules = schedules && schedules.map((scheduleToParse: any) => ({
+        ...scheduleToParse,
+        from: convertMinutesToHourString(scheduleToParse.from),
+        to: convertMinutesToHourString(scheduleToParse.to)
+      }));
+
+      setSubject(subject);
+      setCost(costToBrl);
+
+      setScheduleItems(state => parsedSchedules || state);
+      setUser(state => ({
+        ...state,
+        name,
+        lastname,
+        email,
+        whatsapp,
+        bio
+      }));
+
+    })
+  }, [bio, email, lastname, name, setUser, whatsapp]);
 
   return (
     <div id="page-profile" className="container">
@@ -140,7 +191,7 @@ const Profile: React.FC = () => {
                   { value: 'Fisica', label: 'Física' },
                   { value: 'Matematica', label: 'Matemática' },
                   { value: 'Quimica', label: 'Química' },
-                  
+
                 ]}
               />
 
@@ -171,13 +222,11 @@ const Profile: React.FC = () => {
                       value={scheduleItem.week_day}
                       onChange={e => setScheduleItemValue(index, 'week_day', e.target.value)}
                       options={[
-                        { value: '0', label: 'Domingo' },
                         { value: '1', label: 'Segunda-feira' },
                         { value: '2', label: 'Terça-feira' },
                         { value: '3', label: 'Quarta-feira' },
                         { value: '4', label: 'Quinta-feira' },
                         { value: '5', label: 'Sexta-feira' },
-                        { value: '6', label: 'Sábado' }
                       ]}
                     />
 
@@ -217,7 +266,7 @@ const Profile: React.FC = () => {
               Importante ! <br />
               Preencha todos os dados
             </p>
-            <button type="submit">Salvar cadastro</button>
+            <button type="submit">Salvar alterações</button>
           </footer>
         </form>
       </main>

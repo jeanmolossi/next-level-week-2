@@ -19,7 +19,7 @@ const TeacherForm: React.FC = () => {
 
   const [whatsapp, setWhatsapp] = useState(user.whatsapp);
   const [bio, setBio] = useState('');
-  
+
   const [subject, setSubject] = useState('');
   const [cost, setCost] = useState('');
 
@@ -46,7 +46,6 @@ const TeacherForm: React.FC = () => {
     e.preventDefault();
 
     api.post(`classes`, {
-      
       whatsapp,
       bio,
       subject,
@@ -88,7 +87,7 @@ const TeacherForm: React.FC = () => {
                 <div className="proffy-avatar">
                   <img src={user.avatar} alt="Avatar do proffy"/>
                 </div>
-                
+
                 <div className="proffy-name-subject">
                   <h1>
                     {user.name}
@@ -137,7 +136,7 @@ const TeacherForm: React.FC = () => {
                   { value: 'Fisica', label: 'Física' },
                   { value: 'Matematica', label: 'Matemática' },
                   { value: 'Quimica', label: 'Química' },
-                  
+
                 ]}
               />
 

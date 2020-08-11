@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useState } from 'react';
+import React, { createContext, useContext, useCallback, useState, SetStateAction } from 'react';
 import { verify } from 'jsonwebtoken';
 
 import api from '../services/api';
@@ -23,6 +23,7 @@ interface AuthContextProps {
   user: User;
   signIn(data: AuthData): Promise<boolean>;
   signOut(): void;
+  setUser: React.Dispatch<SetStateAction<User>>;
 }
 
 const authContext = createContext({} as AuthContextProps);
@@ -39,7 +40,7 @@ const AuthProvider: React.FC = ({ children }) => {
       return {} as User;
 
     const parsedToken = JSON.parse(tokenStoraged);
-    
+
     if(!userStoraged)
       userStoraged = sessionStorage.getItem('@proffy:user');
 
@@ -76,9 +77,9 @@ const AuthProvider: React.FC = ({ children }) => {
           sessionStorage.setItem('@proffy:token', JSON.stringify(token));
           sessionStorage.setItem('@proffy:user', JSON.stringify(user));
         }
-        
-        api.defaults.headers.authorization = token
-        setUser(user);        
+
+        api.defaults.headers.authorization = `Bearer ${token}`
+        setUser(user);
 
         return true;
       })
@@ -97,7 +98,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <authContext.Provider value={{ user, signIn, signOut }}>
+    <authContext.Provider value={{ user, setUser, signIn, signOut }}>
       {children}
     </authContext.Provider>
   );
