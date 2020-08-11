@@ -17,7 +17,9 @@ export default class ClassesController {
   async show(request: Request, response: Response) {
     const classesRepository = getRepository(Classes);
 
-    const classesWithoutFilters = await classesRepository.find();
+    const classesWithoutFilters = await classesRepository.find({
+      relations: ['user', 'schedules'],
+    });
 
     return response.json(classesWithoutFilters);
   }
