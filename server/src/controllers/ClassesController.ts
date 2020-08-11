@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { getRepository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import convertHourToMinutes from '@utils/convertHourToMinutes';
 
-import Schedules from 'entities/Schedules';
 import Users from '../entities/Users';
 import Classes from '../entities/Classes';
 
@@ -39,21 +38,24 @@ export default class ClassesController {
 
     const timeInMinutes = convertHourToMinutes(time);
 
-    const schedulesRepository = getRepository(Schedules);
-    const schedulesFiltered = await schedulesRepository.find({
-      relations: ['classes'],
-      where: {
-        week_day: Number(week_day),
-        from: LessThanOrEqual(timeInMinutes),
-        to: MoreThanOrEqual(timeInMinutes),
+    const classesRepository = getRepository(Classes);
+    const classesFiltered = await classesRepository.find({
+      relations: ['schedules'],
+      join: { alias: 'classes', innerJoin: { schedules: 'classes.schedules' } },
+      where: (query: any) => {
+        query
+          .where({
+            subject,
+          })
+          .andWhere('schedules.week_day = :week_day', { week_day })
+          .andWhere('schedules.from <= :from', {
+            from: timeInMinutes,
+          })
+          .andWhere('schedules.to >= :to', { to: timeInMinutes });
       },
     });
 
-    const classesSubject = schedulesFiltered.filter(
-      schedule => schedule.classes.subject === subject
-    );
-
-    return response.json(classesSubject);
+    return response.json(classesFiltered);
   }
 
   async create(request: Request, response: Response) {
