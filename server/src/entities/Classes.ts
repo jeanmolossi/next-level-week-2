@@ -1,4 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
+
+import Users from './Users';
+import Schedules from './Schedules';
 
 @Entity('classes')
 export default class Classes {
@@ -6,19 +18,27 @@ export default class Classes {
   id: number;
 
   @Column()
-  name: string;
-  
-  @Column()
-  lastname: string;
-  
-  @Column()
-  avatar: string;
-  
-  @Column()
-  whatsapp: string;
-  
-  @Column()
-  bio: string;
+  subject: string;
 
-  user: any;
+  @Column()
+  cost: number;
+
+  @Column()
+  user_id: number;
+
+  @OneToOne(_type => Users, { eager: true })
+  @JoinColumn({ name: 'user_id' })
+  user: Users;
+
+  @OneToMany(_type => Schedules, classes => classes.classes, {
+    cascade: true,
+  })
+  @JoinColumn({ name: 'schedules' })
+  schedules: Schedules[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

@@ -1,13 +1,13 @@
 {
    "name": "@proffy.v1.9/server",
    "version": "1.0.0",
-   "main": "./src/server.ts",
+   "main": "src/server.ts",
    "license": "MIT",
    "scripts": {
-      "start": "ts-node-dev -r tsconfig-paths/register src/server.ts",
+      "start": "ts-node-dev -r tsconfig-paths/register --transpile-only --respawn src/server.ts",
       "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
       "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback",
-      "typeorm": "node --require ts-node/register -r tsconfig-paths/register ../node_modules/typeorm/cli.js"
+      "typeorm": "node -r ts-node/register ../node_modules/typeorm/cli.js"
    },
    "devDependencies": {
       "@types/bcrypt": "^3.0.0",

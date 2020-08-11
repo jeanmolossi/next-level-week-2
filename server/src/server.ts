@@ -2,9 +2,9 @@ import 'reflect-metadata';
 import express, { Express } from 'express';
 import cors from 'cors';
 
-import '@database/connections';
-
 import router from './routes';
+
+import '@database/connections';
 
 class ServerRunner {
   public app: Express;

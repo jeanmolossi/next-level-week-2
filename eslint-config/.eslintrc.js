@@ -28,6 +28,15 @@ module.exports = {
         "prettier/prettier": "error",
         "class-methods-use-this": "off",
         "import/prefer-default-export": "off",
+        "camelcase": "off",
+        "import/no-cycle": "off",
+
+        "no-unused-vars": [
+          'error',
+          {
+            argsIgnorePattern: '_',
+          },
+        ],
 
         '@typescript-eslint/no-unused-vars': [
           'error',

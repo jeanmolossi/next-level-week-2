@@ -2,6 +2,7 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
+  TableColumn,
   TableForeignKey,
 } from 'typeorm';
 
@@ -40,6 +41,11 @@ export default class createUsers1597079008072 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'avatar',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'whatsapp',
             type: 'varchar',
             isNullable: true,
@@ -60,19 +66,34 @@ export default class createUsers1597079008072 implements MigrationInterface {
             default: 'CURRENT_TIMESTAMP',
           },
         ],
-        foreignKeys: [
-          new TableForeignKey({
-            name: 'userClasses',
-            columnNames: ['id'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'classes',
-          }),
-        ],
+      })
+    );
+
+    await queryRunner.addColumn(
+      'classes',
+      new TableColumn({
+        name: 'user_id',
+        type: 'integer',
+        isNullable: true,
+      })
+    );
+
+    await queryRunner.createForeignKey(
+      'classes',
+      new TableForeignKey({
+        name: 'userClasses',
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('classes', 'userClasses');
+    await queryRunner.dropColumn('classes', 'user_id');
     await queryRunner.dropTable('users');
   }
 }

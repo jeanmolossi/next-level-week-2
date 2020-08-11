@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
-     "lib": [
-        "es5",
-        "es6"
-     ],
-     "target": "es5",
-     "module": "commonjs",
-     "outDir": "./dist",
-     "baseUrl": "./src",
-     "paths": {
-        "@database/*": ["database/*"],
-        "@utils/*": ["utils/*"]
-      }, 
-     "esModuleInterop": true,
-     "strict": true,
-     "strictPropertyInitialization": false,
-     "emitDecoratorMetadata": true,
-     "experimentalDecorators": true,
-     "forceConsistentCasingInFileNames": true,
-     "sourceMap": true
+    "lib": [
+      "es5",
+      "es6"
+    ],
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@database/*": ["database/*"],
+      "@utils/*": ["utils/*"]
+    },
+    "esModuleInterop": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
   }
 }
