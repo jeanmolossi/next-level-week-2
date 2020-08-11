@@ -32,6 +32,8 @@ export default class Classes {
 
   @OneToMany(_type => Schedules, classes => classes.classes, {
     cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'schedules' })
   schedules: Schedules[];

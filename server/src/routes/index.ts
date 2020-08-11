@@ -28,5 +28,6 @@ appRoutes.get('/classes', classesController.index);
 appRoutes.get('/classes/all', classesController.show);
 
 appRoutes.get('/profile', usersController.index);
+appRoutes.put('/profile/update', usersController.update);
 
 export default appRoutes;

@@ -57,7 +57,7 @@ export default class createSchedules1597099412084
             referencedColumnNames: ['id'],
             referencedTableName: 'classes',
             onUpdate: 'CASCADE',
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
           }),
         ],
       })
