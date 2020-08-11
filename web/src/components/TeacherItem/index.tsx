@@ -3,17 +3,29 @@ import React, { useMemo, useCallback } from 'react';
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
 import api from '../../services/api';
+import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
 
 import './styles.css';
 
-export interface Teacher {
-  id: number;
+interface User {
   name: string;
   avatar: string;
-  bio: string;
   whatsapp: string;
+  bio: string;
+}
+
+interface Schedule {
+  week_day: number;
+  from: number;
+  to: number;
+}
+
+export interface Teacher {
+  id: number;
+  user: User;
   subject: string;
   cost: number;
+  schedules: Schedule[];
 }
 
 interface TeacherItemProps {
@@ -22,14 +34,60 @@ interface TeacherItemProps {
 
 const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
 
+  const parsedSchedules = useMemo(() => {
+
+    const week_days = [
+      {
+        day: 1,
+        week_day: 'Segunda'
+      },
+      {
+        day: 2,
+        week_day: 'Terça'
+      },
+      {
+        day: 3,
+        week_day: 'Quarta'
+      },
+      {
+        day: 4,
+        week_day: 'Quinta'
+      },
+      {
+        day: 5,
+        week_day: 'Sexta'
+      }]
+
+    const parsed = week_days.map(day => {
+      const schedule = teacher.schedules.find(scheduleObject => scheduleObject.week_day === day.day)
+
+      const week_day_parsed = day.week_day;
+
+      if(!schedule) return {
+        week_day: day.week_day
+      };
+
+      const fromTimeString = `${convertMinutesToHourString(schedule.from)}`;
+      const toTimeString = `${convertMinutesToHourString(schedule.to)}`;
+      const time_parsed = `${fromTimeString} - ${toTimeString}`;
+
+      return {
+        week_day: week_day_parsed,
+        time: time_parsed
+      };
+    });
+
+    return parsed;
+  }, [teacher.schedules])
+
   const formattedCost = useMemo(() => {
     const price = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(teacher.cost);
     return price;
   }, [teacher.cost])
 
   const teacherAvatar = useMemo(() =>
-    teacher.avatar || `https://api.adorable.io/avatars/60/placeholder.png`
-  ,[teacher.avatar]);
+    teacher.user.avatar || `https://api.adorable.io/avatars/60/placeholder.png`
+  ,[teacher.user.avatar]);
 
   const handleCreateConnection = useCallback(() => {
     api.post(`connections`, { user_id: teacher.id });
@@ -38,50 +96,24 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
   return (
     <article className="teacher-item">
       <header>
-        <img src={teacherAvatar} alt={teacher.name} />
+        <img src={teacherAvatar} alt={teacher.user.name} />
         <div>
-          <strong>{teacher.name}</strong>
+          <strong>{teacher.user.name}</strong>
           <span>{teacher.subject}</span>
         </div>
       </header>
 
-      <p>{teacher.bio}</p>
+      <p>{teacher.user.bio}</p>
 
       <section>
-        <div className="single-day">
-          <span>Dia</span>
-          <p>Segunda</p>
-          <span>Horário</span>
-          <p>08:00 - 18:00</p>
-        </div>
-
-        <div className="single-day">
-          <span>Dia</span>
-          <p>Terça</p>
-          <span>Horário</span>
-          <p>08:00 - 18:00</p>
-        </div>
-        
-        <div className="single-day">
-          <span>Dia</span>
-          <p>Quarta</p>
-          <span>Horário</span>
-          <p>08:00 - 18:00</p>
-        </div>
-
-        <div className="single-day">
-          <span>Dia</span>
-          <p>Quinta</p>
-          <span>Horário</span>
-          <p>08:00 - 18:00</p>
-        </div>
-
-        <div className="single-day">
-          <span>Dia</span>
-          <p>Sexta</p>
-          <span>Horário</span>
-          <p>08:00 - 18:00</p>
-        </div>
+        {parsedSchedules.map((schedule) => (
+          <div className={`single-day ${!schedule.time && ' disabled'}`}>
+            <span>Dia</span>
+            <p>{schedule.week_day}</p>
+            <span>Horário</span>
+            <p>{schedule.time ? schedule.time : '-'}</p>
+          </div>
+        ))}
       </section>
 
       <footer>
@@ -89,7 +121,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
           Preço/hora
           <strong>{formattedCost}</strong>
         </p>
-        <a onClick={handleCreateConnection} href={`https://wa.me/+55${teacher.whatsapp}`} target="_blank" rel="noopener noreferrer">
+        <a onClick={handleCreateConnection} href={`https://wa.me/+55${teacher.user.whatsapp}`} target="_blank" rel="noopener noreferrer">
           <img src={whatsappIcon} alt="Whatsapp" />
           Entrar em contato
         </a>

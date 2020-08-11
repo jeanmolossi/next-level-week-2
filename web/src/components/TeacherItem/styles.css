@@ -9,7 +9,7 @@
 
 .teacher-item header {
   padding: 3.2rem 2rem;
-  display: flex;  
+  display: flex;
   align-items: center;
 }
 
@@ -57,9 +57,14 @@
   border: 1px solid var(--color-line-in-white);
   border-radius: 0.8rem;
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 4.8rem repeat(3, 1fr);
   align-items: center;
-  justify-content: space-between;
+  text-align: center;
+}
+
+.single-day.disabled {
+  opacity: 0.4;
 }
 
 .single-day > span {
@@ -121,9 +126,11 @@
   }
 
   .teacher-item > section > .single-day {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 0.8rem;
+    text-align: left;
   }
 
   .teacher-item footer p strong {
