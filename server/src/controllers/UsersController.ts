@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
-import { hash } from 'bcrypt';
-import Users from 'entities/Users';
 import { getRepository } from 'typeorm';
+import { hash } from 'bcrypt';
+
+import Users from '../entities/Users';
+import Classes from '../entities/Classes';
 
 export default class UsersController {
   async create(request: Request, response: Response): Promise<Response> {
@@ -28,6 +30,16 @@ export default class UsersController {
     });
 
     await usersRepository.save(user);
+
+    return response.json(user);
+  }
+
+  async index(request: Request, response: Response): Promise<Response> {
+    const classesRepository = getRepository(Classes);
+    const user = await classesRepository.findOne({
+      relations: ['schedules'],
+      where: { user_id: request.user.id },
+    });
 
     return response.json(user);
   }
