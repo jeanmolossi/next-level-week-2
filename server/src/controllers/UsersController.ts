@@ -53,6 +53,7 @@ export default class UsersController {
       lastname,
       email,
       whatsapp,
+      bio,
       subject,
       cost,
       schedules,
@@ -84,6 +85,7 @@ export default class UsersController {
     user.lastname = lastname;
     user.email = email;
     user.whatsapp = whatsapp;
+    user.bio = bio;
 
     const classes = await classesRepository.findOne({
       where: { user_id: request.user.id },
