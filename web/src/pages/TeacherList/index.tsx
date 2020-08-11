@@ -35,14 +35,14 @@ const TeacherList: React.FC = () => {
     }).catch(() => {
       console.log('Error');
     })
-    
+
   }, [subject, week_day, time]);
 
   useEffect(() => {
     api.get(`classes/all`)
       .then(response => {
         const teachersList = response.data;
-        
+
         setTeachers(teachersList);
       })
   }, []);
@@ -69,10 +69,10 @@ const TeacherList: React.FC = () => {
               { value: 'Fisica', label: 'Física' },
               { value: 'Matematica', label: 'Matemática' },
               { value: 'Quimica', label: 'Química' },
-              
+
             ]}
-          />          
-          
+          />
+
           <div className="when-inputs-config">
             <Select
               label="Dia da semana"
@@ -80,15 +80,13 @@ const TeacherList: React.FC = () => {
               value={week_day}
               onChange={(e) => setWeekDay(e.target.value)}
               options={[
-                { value: '0', label: 'Domingo' },
                 { value: '1', label: 'Segunda-feira' },
                 { value: '2', label: 'Terça-feira' },
                 { value: '3', label: 'Quarta-feira' },
                 { value: '4', label: 'Quinta-feira' },
-                { value: '5', label: 'Sexta-feira' },
-                { value: '6', label: 'Sábado' }
+                { value: '5', label: 'Sexta-feira' }
               ]}
-            />  
+            />
             <Input
               label="Hora"
               name="time"
@@ -103,7 +101,7 @@ const TeacherList: React.FC = () => {
           <button type="submit">
             <FiSearch /> Buscar
           </button>
-          
+
         </form>
       </PageHeader>
 
