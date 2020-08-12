@@ -74,6 +74,18 @@ export default class ClassesController {
         });
       }
 
+      const userHasClasses = await classesRepository.find({
+        user_id: request.user.id,
+      });
+
+      if (userHasClasses.length > 0) {
+        return response.status(401).json({
+          error: 'User already has classes',
+          message:
+            'Unable to create new Classes, user already has classes, try update that',
+        });
+      }
+
       userLogged.whatsapp = whatsapp;
       userLogged.bio = bio;
 

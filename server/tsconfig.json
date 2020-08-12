@@ -10,7 +10,8 @@
     "baseUrl": "./src",
     "paths": {
       "@database/*": ["database/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@configs/*": ["configs/*"]
     },
     "esModuleInterop": true,
     "strict": true,

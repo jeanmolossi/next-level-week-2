@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getRepository, IsNull } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { hash } from 'bcrypt';
 
 import convertHourToMinutes from '@utils/convertHourToMinutes';
