@@ -26,7 +26,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     await signIn({ email, password, rememberPassword });
-    
+
   }, [email, password, rememberPassword, signIn]);
 
   return (
@@ -64,7 +64,7 @@ const Login: React.FC = () => {
                 />
                 <span>Senha</span>
                 <button type="button" onClick={togglePasswordVisible}>
-                  {isPasswordVisible ? <FiEyeOff color="#8257E5" /> : <FiEye />}                  
+                  {isPasswordVisible ? <FiEyeOff color="#8257E5" /> : <FiEye />}
                 </button>
               </div>
             </section>

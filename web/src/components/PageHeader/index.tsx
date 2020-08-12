@@ -1,15 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 import logoSvg from '../../assets/images/logo.svg';
 import backIcon from '../../assets/images/icons/back.svg';
 
 import './styles.css';
-
-interface MenuProps {
-  to: string;
-  text: string;
-}
 
 interface PageHeaderProps {
   title: string;
@@ -18,20 +13,6 @@ interface PageHeaderProps {
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, description, location, children }) => {
-  const { pathname } = useLocation();
-
-  const [menuProps, setMenuProps] = useState({} as MenuProps);
-
-  const menus = useMemo(() => ([
-    { path: '/study', linkProps: { to: '/give-classes', text: 'Dar aulas' } },
-    { path: '/give-classes', linkProps: { to: '/study', text: 'Estudar' } }
-  ]), [])
-
-  useEffect(() => {
-    const menuToShow = menus.find(menu => menu.path === pathname);
-    if(menuToShow)
-      setMenuProps(menuToShow.linkProps)
-  }, [pathname, menus]);
 
   return (
     <header className="page-header">
@@ -49,7 +30,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, description, location, c
         <div className="header-content">
           <strong>{title}</strong>
           {description && (<p>{description}</p>)}
-        
+
           {children}
         </div>
       )}

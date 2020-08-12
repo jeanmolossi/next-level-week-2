@@ -60,6 +60,7 @@ const TeacherList: React.FC = () => {
             name="subject"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
+            required
             options={[
               { value: 'Artes', label: 'Artes' },
               { value: 'Biologia', label: 'Biologia' },
@@ -69,7 +70,6 @@ const TeacherList: React.FC = () => {
               { value: 'Fisica', label: 'Física' },
               { value: 'Matematica', label: 'Matemática' },
               { value: 'Quimica', label: 'Química' },
-
             ]}
           />
 
@@ -79,6 +79,7 @@ const TeacherList: React.FC = () => {
               name="week_day"
               value={week_day}
               onChange={(e) => setWeekDay(e.target.value)}
+              required
               options={[
                 { value: '1', label: 'Segunda-feira' },
                 { value: '2', label: 'Terça-feira' },
@@ -92,6 +93,7 @@ const TeacherList: React.FC = () => {
               name="time"
               type="time"
               value={time}
+              required
               onChange={(e) => {
                 setTime(e.target.value);
               }}

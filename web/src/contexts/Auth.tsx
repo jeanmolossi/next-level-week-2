@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useState, SetStateAction } from 'react';
+import React, { createContext, useContext, useCallback, useState } from 'react';
 import { verify } from 'jsonwebtoken';
 
 import api from '../services/api';
@@ -80,6 +80,7 @@ const AuthProvider: React.FC = ({ children }) => {
         setUser(user);
       })
       .catch(err => {
+        alert('Não foi possível autenticar, cheque suas credenciais')
         console.log('Não foi possível autenticar');
       });
   }, []);

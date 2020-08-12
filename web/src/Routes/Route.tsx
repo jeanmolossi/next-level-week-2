@@ -8,12 +8,12 @@ interface RouteComponentProps extends DOMRouteProps{
   component: React.ComponentType;
 }
 
-const Route: React.FC<RouteComponentProps> = ({ isPrivate = false, component: Component }) => {
+const Route: React.FC<RouteComponentProps> = ({ isPrivate = false, component: Component, ...rest }) => {
   const { user } = useAuth();
 
   return <DOMRoute
     render={() => (isPrivate === !!user.id)
-      ? <Component />
+      ? <Component {...rest} />
       : <Redirect to={{ pathname: isPrivate ? '/' : '/home' }} />}
   />
 }

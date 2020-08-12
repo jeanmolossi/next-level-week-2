@@ -107,7 +107,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
 
       <section>
         {parsedSchedules.map((schedule) => (
-          <div className={`single-day ${!schedule.time && ' disabled'}`}>
+          <div key={schedule.week_day} className={`single-day ${!schedule.time && ' disabled'}`}>
             <span>Dia</span>
             <p>{schedule.week_day}</p>
             <span>Horário</span>

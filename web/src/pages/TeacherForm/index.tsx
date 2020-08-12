@@ -74,7 +74,7 @@ const TeacherForm: React.FC = () => {
       alert('Cadastro realizado com sucesso!');
       history.push('/');
     }).catch(() => {
-      alert('Erro no cadastro!');
+      alert('Erro no cadastro!\nSe você já cadastrou aulas, edite em seu perfil');
     });
 
   }, [cost, whatsapp, bio, subject, scheduleItems, updateUser, history]);
@@ -82,10 +82,13 @@ const TeacherForm: React.FC = () => {
   useEffect(() => {
     api.get(`profile`).then(response => {
 
-      const {bio, subject, schedules} = response.data;
+      const {bio, subject, cost, schedules} = response.data;
+
+      const costToBrl = cost ? cost.toString().replace('.',',') : '19,90';
 
       setBio(bio);
       setSubject(subject);
+      setCost(costToBrl);
 
       const parsedSchedules = schedules && schedules.map((scheduleToParse: any) => ({
         ...scheduleToParse,
@@ -195,13 +198,11 @@ const TeacherForm: React.FC = () => {
                       value={scheduleItem.week_day}
                       onChange={e => setScheduleItemValue(index, 'week_day', e.target.value)}
                       options={[
-                        { value: '0', label: 'Domingo' },
                         { value: '1', label: 'Segunda-feira' },
                         { value: '2', label: 'Terça-feira' },
                         { value: '3', label: 'Quarta-feira' },
                         { value: '4', label: 'Quinta-feira' },
                         { value: '5', label: 'Sexta-feira' },
-                        { value: '6', label: 'Sábado' }
                       ]}
                     />
 
