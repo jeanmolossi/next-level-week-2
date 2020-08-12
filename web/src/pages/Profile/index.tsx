@@ -16,7 +16,7 @@ import api from '../../services/api';
 import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
 
 const Profile: React.FC = () => {
-  const { user, setUser } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const [name, setName] = useState(user.name);
   const [lastname, setLastname] = useState(user.lastname);
@@ -71,11 +71,25 @@ const Profile: React.FC = () => {
       cost: costSanitized,
       schedules: scheduleItems
     }).then(response => {
-      console.log(response.data)
-      alert('Atualização salva com sucesso!')
+      console.log(response.data,
+        {
+          name,
+          lastname,
+          email,
+          whatsapp,
+          bio
+        })
+      alert('Atualização salva com sucesso!');
+      updateUser({
+        name,
+        lastname,
+        email,
+        whatsapp,
+        bio
+      });
     });
 
-  }, [bio, cost, email, lastname, name, scheduleItems, subject, whatsapp]);
+  }, [bio, cost, email, lastname, name, scheduleItems, subject, updateUser, whatsapp]);
 
   useEffect(() => {
     api.get(`profile`).then(response => {
@@ -93,17 +107,9 @@ const Profile: React.FC = () => {
       setCost(costToBrl);
 
       setScheduleItems(state => parsedSchedules || state);
-      setUser(state => ({
-        ...state,
-        name,
-        lastname,
-        email,
-        whatsapp,
-        bio
-      }));
 
     })
-  }, [bio, email, lastname, name, setUser, whatsapp]);
+  }, [bio, email, lastname, name, whatsapp]);
 
   return (
     <div id="page-profile" className="container">

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, FormEvent } from 'react';
+import React, { useState, useCallback, FormEvent, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import warningIcon from '../../assets/images/icons/warning.svg';
@@ -18,10 +18,10 @@ const TeacherForm: React.FC = () => {
   const { user } = useAuth();
 
   const [whatsapp, setWhatsapp] = useState(user.whatsapp);
-  const [bio, setBio] = useState('');
+  const [bio, setBio] = useState(user.bio);
 
   const [subject, setSubject] = useState('');
-  const [cost, setCost] = useState('');
+  const [cost, setCost] = useState('19,90');
 
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: '', to: '' },
@@ -67,7 +67,11 @@ const TeacherForm: React.FC = () => {
     })
   }, [whatsapp, bio, subject, cost, scheduleItems, history]);
 
-
+  useEffect(() => {
+    api.get(`profile`).then(response => {
+      setBio(response.data.bio)
+    });
+  }, []);
 
   return (
     <div id="page-teacher-form" className="container">

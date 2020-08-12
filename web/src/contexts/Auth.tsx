@@ -21,9 +21,9 @@ interface User {
 
 interface AuthContextProps {
   user: User;
-  signIn(data: AuthData): Promise<boolean>;
+  signIn(data: AuthData): Promise<void>;
   signOut(): void;
-  setUser: React.Dispatch<SetStateAction<User>>;
+  updateUser(newUser: Partial<User>): void;
 }
 
 const authContext = createContext({} as AuthContextProps);
@@ -44,24 +44,18 @@ const AuthProvider: React.FC = ({ children }) => {
     if(!userStoraged)
       userStoraged = sessionStorage.getItem('@proffy:user');
 
-    if(!userStoraged)
+      if(!userStoraged)
       return {} as User;
 
-    api.defaults.headers.authorization = `Bearer ${parsedToken}`;
+      api.defaults.headers.authorization = `Bearer ${parsedToken}`;
 
-    const parsedUser = JSON.parse(userStoraged);
-
-    if(!parsedUser.avatar)
-      return {
-        ...parsedUser,
-        avatar: `https://api.adorable.io/avatars/160/${(parsedUser.name).toString().replace(/ /gim, '')}.png`
-      } as User;
+      const parsedUser = JSON.parse(userStoraged);
 
     return parsedUser;
   });
 
   const signIn = useCallback(async ({ email, password, rememberPassword}) => {
-    return api.post(`sessions`, {
+    api.post(`sessions`, {
       email, password, rememberPassword
     })
       .then(response => {
@@ -70,6 +64,9 @@ const AuthProvider: React.FC = ({ children }) => {
         const isTokenValid = verify(token, 'secret_key');
         if(!isTokenValid) throw new Error('Invalid token');
 
+        if(!user.avatar)
+          user.avatar = `https://api.adorable.io/avatars/160/${(user.name).toString().replace(/ /gim, '')}.png`;
+
         if(rememberPassword){
           localStorage.setItem('@proffy:token', JSON.stringify(token));
           localStorage.setItem('@proffy:user', JSON.stringify(user));
@@ -77,15 +74,13 @@ const AuthProvider: React.FC = ({ children }) => {
           sessionStorage.setItem('@proffy:token', JSON.stringify(token));
           sessionStorage.setItem('@proffy:user', JSON.stringify(user));
         }
+        console.log({user, token})
 
         api.defaults.headers.authorization = `Bearer ${token}`
         setUser(user);
-
-        return true;
       })
       .catch(err => {
         console.log('Não foi possível autenticar');
-        return false;
       });
   }, []);
 
@@ -97,8 +92,30 @@ const AuthProvider: React.FC = ({ children }) => {
     setUser({} as User);
   }, []);
 
+  const updateUser = useCallback((newUser: Partial<User>) => {
+    const userSession = sessionStorage.getItem('@proffy:user');
+
+    if(userSession)
+      sessionStorage.setItem('@proffy:user', JSON.stringify({
+        ...user,
+        ...newUser
+      }));
+
+    const userStoraged = localStorage.getItem('@proffy:user');
+    if(userStoraged)
+      localStorage.setItem('@proffy:user', JSON.stringify({
+        ...user,
+        ...newUser
+      }));
+
+    setUser((currentData: Partial<User>) => ({
+      ...currentData,
+      ...newUser
+    }))
+  }, [user]);
+
   return (
-    <authContext.Provider value={{ user, setUser, signIn, signOut }}>
+    <authContext.Provider value={{ user, updateUser, signIn, signOut }}>
       {children}
     </authContext.Provider>
   );
