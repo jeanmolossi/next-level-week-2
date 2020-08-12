@@ -71,14 +71,7 @@ const Profile: React.FC = () => {
       cost: costSanitized,
       schedules: scheduleItems
     }).then(response => {
-      console.log(response.data,
-        {
-          name,
-          lastname,
-          email,
-          whatsapp,
-          bio
-        })
+
       alert('Atualização salva com sucesso!');
       updateUser({
         name,

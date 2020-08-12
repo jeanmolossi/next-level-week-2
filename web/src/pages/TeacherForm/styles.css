@@ -169,12 +169,6 @@
     margin-left: 1.6rem;
   }
 
-  #page-teacher-form main .schedule-item {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    column-gap: 1.6rem;
-  }
-
   #page-teacher-form main .schedule-item .input-block {
     margin-top: 0 !important;
   }

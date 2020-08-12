@@ -8,6 +8,7 @@ import Input from '../../components/Input';
 import Textarea from '../../components/TextArea';
 import Select from '../../components/Select';
 
+import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
 import api from '../../services/api';
 import { useAuth } from '../../contexts/Auth';
 
@@ -15,7 +16,7 @@ import './styles.css'
 
 const TeacherForm: React.FC = () => {
   const history = useHistory();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const [whatsapp, setWhatsapp] = useState(user.whatsapp);
   const [bio, setBio] = useState(user.bio);
@@ -42,34 +43,57 @@ const TeacherForm: React.FC = () => {
     setScheduleItems([...scheduleItems, { week_day: 0, from: '', to: '' }])
   }, [scheduleItems]);
 
+  const handleRemoveScheduleItem = useCallback((index) => {
+    scheduleItems.splice(index, 1);
+    setScheduleItems([...scheduleItems]);
+  }, [scheduleItems]);
+
   const handleCreateClass = useCallback((e: FormEvent) => {
     e.preventDefault();
 
+    let costSanitize = cost || 'R$ 0,00';
+    let whatsSanitize = whatsapp || '(__)';
+
+    const costSanitized = Number(costSanitize.replace(/(r\$|( )|'.')/gim, '').replace(',', '.'));
+    const whatsSanitized = whatsSanitize.replace(/(\(|\)|( )|_)/gim, '');
+
     api.post(`classes`, {
-      whatsapp,
+      whatsapp: whatsSanitized,
       bio,
       subject,
-      cost: Number(cost),
+      cost: costSanitized,
       schedule: scheduleItems
-    }).then(() => {
+    }).then((response) => {
+      const { user } = response.data;
+
+      updateUser({
+        bio: user.bio,
+        whatsapp: user.whatsapp
+      })
+
       alert('Cadastro realizado com sucesso!');
       history.push('/');
     }).catch(() => {
       alert('Erro no cadastro!');
     });
 
-    console.log({
-      whatsapp,
-      bio,
-      subject,
-      cost,
-      scheduleItems
-    })
-  }, [whatsapp, bio, subject, cost, scheduleItems, history]);
+  }, [cost, whatsapp, bio, subject, scheduleItems, updateUser, history]);
 
   useEffect(() => {
     api.get(`profile`).then(response => {
-      setBio(response.data.bio)
+
+      const {bio, subject, schedules} = response.data;
+
+      setBio(bio);
+      setSubject(subject);
+
+      const parsedSchedules = schedules && schedules.map((scheduleToParse: any) => ({
+        ...scheduleToParse,
+        from: convertMinutesToHourString(scheduleToParse.from),
+        to: convertMinutesToHourString(scheduleToParse.to)
+      }));
+
+      setScheduleItems(state => parsedSchedules || state);
     });
   }, []);
 
@@ -164,40 +188,51 @@ const TeacherForm: React.FC = () => {
 
               {scheduleItems.map((scheduleItem, index) => (
                 <div className="schedule-item" key={scheduleItem.week_day}>
-                  <Select
-                    label="Dia da semana"
-                    name="week_day"
-                    value={scheduleItem.week_day}
-                    onChange={e => setScheduleItemValue(index, 'week_day', e.target.value)}
-                    options={[
-                      { value: '0', label: 'Domingo' },
-                      { value: '1', label: 'Segunda-feira' },
-                      { value: '2', label: 'Terça-feira' },
-                      { value: '3', label: 'Quarta-feira' },
-                      { value: '4', label: 'Quinta-feira' },
-                      { value: '5', label: 'Sexta-feira' },
-                      { value: '6', label: 'Sábado' }
-                    ]}
-                  />
-
-                  <div className="time-inputs">
-                    <Input
-                      label="Das"
-                      name="from"
-                      type="time"
-                      value={scheduleItem.from}
-                      onChange={e => setScheduleItemValue(index, 'from', e.target.value)}
-                      />
-
-                    <Input
-                      label="até"
-                      name="to"
-                      type="time"
-                      value={scheduleItem.to}
-                      onChange={e => setScheduleItemValue(index, 'to', e.target.value)}
+                  <div className="align-adjust">
+                    <Select
+                      label="Dia da semana"
+                      name="week_day"
+                      value={scheduleItem.week_day}
+                      onChange={e => setScheduleItemValue(index, 'week_day', e.target.value)}
+                      options={[
+                        { value: '0', label: 'Domingo' },
+                        { value: '1', label: 'Segunda-feira' },
+                        { value: '2', label: 'Terça-feira' },
+                        { value: '3', label: 'Quarta-feira' },
+                        { value: '4', label: 'Quinta-feira' },
+                        { value: '5', label: 'Sexta-feira' },
+                        { value: '6', label: 'Sábado' }
+                      ]}
                     />
+
+                    <div className="time-inputs">
+                      <Input
+                        label="Das"
+                        name="from"
+                        type="time"
+                        value={scheduleItem.from}
+                        onChange={e => setScheduleItemValue(index, 'from', e.target.value)}
+                        />
+
+                      <Input
+                        label="até"
+                        name="to"
+                        type="time"
+                        value={scheduleItem.to}
+                        onChange={e => setScheduleItemValue(index, 'to', e.target.value)}
+                      />
+                    </div>
                   </div>
+                  <button
+                    className="remove-item"
+                    type="button"
+                    onClick={e => handleRemoveScheduleItem(index)}
+                    >
+                    Excluir horário
+                  </button>
                 </div>
+
+
               ))}
           </fieldset>
 
