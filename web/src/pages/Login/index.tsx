@@ -1,11 +1,13 @@
 import React, { useCallback, useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import logoImg from '../../assets/images/logo.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 import { useAuth } from '../../contexts/Auth';
+
+import PasswordInputField from '../../components/PasswordInputField'
+import LoginInput from '../../components/LoginInput';
 
 import './styles.css';
 
@@ -13,14 +15,9 @@ const Login: React.FC = () => {
 
   const { signIn } = useAuth();
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberPassword, setRememberPassword] = useState(false);
-
-  const togglePasswordVisible = useCallback(() => {
-    setIsPasswordVisible(!isPasswordVisible);
-  }, [isPasswordVisible])
 
   const handleSubmit = useCallback(async (e: FormEvent) => {
     e.preventDefault();
@@ -46,27 +43,16 @@ const Login: React.FC = () => {
             <legend>Fazer login</legend>
 
             <section className="text-inputs-container">
-              <div className={`login-input-block ${email ? 'filled': ''}`}>
-                <input
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  type="text"
-                  required
-                />
-                <span>E-mail</span>
-              </div>
-              <div className={`login-input-block ${password ? 'filled': ''}`}>
-                <input
-                  type={isPasswordVisible ? 'text' : 'password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  required
-                />
-                <span>Senha</span>
-                <button type="button" onClick={togglePasswordVisible}>
-                  {isPasswordVisible ? <FiEyeOff color="#8257E5" /> : <FiEye />}
-                </button>
-              </div>
+              <LoginInput
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                label="E-mail"
+              />
+
+              <PasswordInputField
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
             </section>
 
             <section className="password-section">
