@@ -33,6 +33,11 @@ export default class SessionsController {
 
     delete user.password;
 
-    return response.json({ user, token });
+    const parsedUser = {
+      ...user,
+      avatar: user.avatar ? `http://localhost:3333/files/${user.avatar}` : null,
+    };
+
+    return response.json({ user: parsedUser, token });
   }
 }

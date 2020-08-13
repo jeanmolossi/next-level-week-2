@@ -2,9 +2,11 @@ import 'reflect-metadata';
 import express, { Express } from 'express';
 import cors from 'cors';
 
-import router from './routes';
+import upload from '@configs/upload';
 
 import '@database/connections';
+
+import router from './routes';
 
 class ServerRunner {
   public app: Express;
@@ -20,6 +22,7 @@ class ServerRunner {
 
   middlewares() {
     this.app.use(express.json());
+    this.app.use('/files', express.static(upload.directory));
     this.app.use(cors());
   }
 
