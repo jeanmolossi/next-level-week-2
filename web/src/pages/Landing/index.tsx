@@ -15,14 +15,14 @@ import { useAuth } from '../../contexts/Auth';
 import './styles.css';
 
 const Landing: React.FC = () => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
 
   const [totalConnections, setTotalConnections] = useState(0);
 
   useEffect(() => {
     api.get(`connections`).then(({ data }) => {
       const { total } = data;
-      
+
       setTotalConnections(total)
     });
   }, [])
@@ -33,7 +33,7 @@ const Landing: React.FC = () => {
 
         <div className="page-landing-header">
           <Link to="/profile" className="user-avatar-name">
-            <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="Proffy avatar" />
+            <img src={user.avatar} alt="Proffy avatar" />
             Jean Carlos
           </Link>
 
@@ -43,14 +43,14 @@ const Landing: React.FC = () => {
             </button>
           </div>
         </div>
-        
+
         <div className="logo-container">
           <img src={logoSvg} alt="Proffy" />
           <h2>Sua plataforma de estudos online.</h2>
         </div>
 
         <img src={landingSvg} alt="Plataforma de estudos" className="hero-image"/>
-        
+
       </div>
 
       <div className="landing-footer">
@@ -73,7 +73,7 @@ const Landing: React.FC = () => {
 
         <span className="total-connections">
           Total de {totalConnections} conexões já realizadas <img src={purpleHeartIcon} alt="Coração roxo"/>
-        </span>          
+        </span>
       </div>
     </div>
   );

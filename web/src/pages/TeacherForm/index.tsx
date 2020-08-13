@@ -2,6 +2,7 @@ import React, { useState, useCallback, FormEvent, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import warningIcon from '../../assets/images/icons/warning.svg';
+import rocketIcon from '../../assets/images/rocket-give-classes.svg';
 
 import PageHeader from '../../components/PageHeader';
 import Input from '../../components/Input';
@@ -106,6 +107,14 @@ const TeacherForm: React.FC = () => {
         title="Que incrível que você quer dar aulas"
         description="O primeiro passo é preencher esse formulário de inscrição"
         location="Dar aulas"
+        blockquote={(
+          <>
+            <img src={rocketIcon} alt="Icone de foguete" />
+            <span>
+              Prepare-se! Será o máximo.
+            </span>
+          </>
+        )}
       />
 
       <main>

@@ -1,6 +1,5 @@
-
 .page-header {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   background-color: var(--color-primary);
 }
@@ -39,18 +38,47 @@
   position: relative;
 }
 
+.page-header .header-content main.header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: none !important;
+}
+
+.page-header .header-content .title-description {
+  max-width: 36rem;
+  color: var(--color-text-in-primary);
+}
+
 .page-header .header-content strong {
   font: 700 3.6rem Archivo;
   line-height: 4.2rem;
   color: var(--color-title-in-primary);
 }
 
-.page-header .header-content p {
+.page-header .header-content main.header-main .blockquote {
   max-width: 30rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.4rem;
+  color: var(--color-text-in-primary);
+}
+
+.page-header .header-content main.header-main .blockquote p {
   font-size: 1.6rem;
   line-height: 2.6rem;
-  color: var(--color-text-in-primary);
-  margin-top: 2.4rem;
+}
+
+.page-header .header-content main.header-main .blockquote blockquote {
+  display: none;
+  justify-content: space-between;
+  column-gap: 1.6rem;
+  max-width: 18rem;
 }
 
 @media (min-width: 700px) {
@@ -75,5 +103,9 @@
 
   .page-header .header-content strong {
     max-width: 350px;
+  }
+
+  .page-header .header-content main.header-main .blockquote blockquote {
+    display: flex;
   }
 }

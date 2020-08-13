@@ -52,6 +52,7 @@ const TeacherList: React.FC = () => {
       <PageHeader
         title="Estes são os proffys disponíveis"
         location="Estudar"
+        blockquote="proffysCount"
       >
         <form onSubmit={handleSubmitFilterForm} id="search-teachers">
 

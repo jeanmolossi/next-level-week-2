@@ -22,7 +22,7 @@
   position: relative;
 }
 
-.page-profile-content header  .avatar  button {
+.page-profile-content header  .avatar  label {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -37,12 +37,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+.page-profile-content header  .avatar  label input{
+  display: none;
 }
 
 .page-profile-content  header  .avatar  img{
   width: 14rem;
   height: 14rem;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .page-profile-content  header  .name-subject {
@@ -96,7 +102,7 @@
   flex-direction: column;
 }
 
-.schedule-item  .remove-item {  
+.schedule-item  .remove-item {
   border: 0;
   background: var(--color-box-base);
   color: var(--color-text-deletar);
@@ -201,7 +207,7 @@
     display: flex;
     column-gap: 2.4rem;
   }
-  
+
   .align-adjust .time-inputs {
     display: flex;
     align-items: flex-start;

@@ -7,7 +7,7 @@
   margin-bottom: 6.4rem;
 }
 
-#page-teacher-form main {
+#page-teacher-form > main {
   background: var(--color-box-base);
   width: 94%;
   max-width: 74rem;
@@ -17,7 +17,7 @@
   overflow: hidden;
 }
 
-#page-teacher-form main fieldset {
+#page-teacher-form > main fieldset {
   border: 0;
   padding: 0 2.4rem;
 }
@@ -38,7 +38,7 @@
   border-bottom: 1px solid var(--color-line-in-white);
 }
 
-#page-teacher-form main fieldset > .your-data-header {
+#page-teacher-form > main fieldset > .your-data-header {
   margin-bottom: 2.4rem;
 }
 
@@ -57,6 +57,7 @@
 
 .data-header-container > .proffy-name-subject {
   margin-left: 2.4rem;
+  min-width: 16rem;
 }
 
 .proffy-name-subject > h1 {
@@ -146,7 +147,7 @@
     margin-bottom: 0;
   }
 
-  #page-teacher-form main {
+  #page-teacher-form > main {
     margin: -3.2rem auto 3.2rem;
   }
 

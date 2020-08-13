@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, FormEvent } from 'react';
+import React, { useState, useCallback, useEffect, FormEvent, ChangeEvent } from 'react';
 import { uuid } from 'uuidv4';
 import { FiCamera } from 'react-icons/fi';
 
@@ -51,6 +51,21 @@ const Profile: React.FC = () => {
     scheduleItems.splice(index, 1);
     setScheduleItems([...scheduleItems]);
   }, [scheduleItems]);
+
+  const handleUpdateAvatar = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if(e.target.files){
+      const avatarData = new FormData();
+      const avatar = e.target.files[0];
+
+      avatarData.append('avatar', avatar);
+
+      api.patch(`avatar/update`, avatarData).then(response => {
+        updateUser({
+          avatar: response.data.avatar
+        })
+      })
+    }
+  }, [updateUser]);
 
   const handleUpdateProfile = useCallback((e: FormEvent) => {
     e.preventDefault();
@@ -111,9 +126,10 @@ const Profile: React.FC = () => {
         <header>
           <div className="avatar">
             <img src={user.avatar} alt={user.name} />
-            <button type="button">
+            <label>
               <FiCamera />
-            </button>
+              <input type="file" name="avatar" onChange={handleUpdateAvatar} />
+            </label>
           </div>
           <div className="name-subject">
             <h1>{user.name}</h1>
