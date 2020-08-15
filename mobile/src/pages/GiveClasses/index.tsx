@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, ImageBackground } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
+import { useNavigation } from '@react-navigation/native';
 import giveClassesBgImg from '../../assets/images/give-classes-background.png';
 
 import styles from './styles';
-import { useNavigation } from '@react-navigation/native';
 
 const GiveClasses: React.FC = () => {
   const { goBack } = useNavigation();
@@ -22,8 +22,10 @@ const GiveClasses: React.FC = () => {
         style={styles.content}
       >
         <Text style={styles.title}>Quer ser um proffy ?</Text>
-        <Text style={styles.description}>Para começar, você precisa se cadastrar como professor na nossa plataforma web.</Text>
-
+        <Text style={styles.description}>
+          Para começar, você precisa se cadastrar como professor na nossa
+          plataforma web.
+        </Text>
       </ImageBackground>
 
       <RectButton style={styles.okButton} onPress={handleNavigateGoBack}>
@@ -31,6 +33,6 @@ const GiveClasses: React.FC = () => {
       </RectButton>
     </View>
   );
-}
+};
 
 export default GiveClasses;
