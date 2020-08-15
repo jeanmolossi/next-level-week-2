@@ -85,9 +85,11 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
     return price;
   }, [teacher.cost])
 
-  const teacherAvatar = useMemo(() =>
-    teacher.user.avatar || `https://api.adorable.io/avatars/60/placeholder.png`
-  ,[teacher.user.avatar]);
+  const teacherAvatar = useMemo(() =>{
+    return teacher.user.avatar
+      ? `http://localhost:3333/files/${teacher.user.avatar}`
+      : `https://api.adorable.io/avatars/60/placeholder.png`
+  },[teacher.user.avatar]);
 
   const handleCreateConnection = useCallback(() => {
     api.post(`connections`, { user_id: teacher.id });
@@ -96,7 +98,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
   return (
     <article className="teacher-item">
       <header>
-        <img src={teacherAvatar} alt={teacher.user.name} />
+        <img src={teacherAvatar} alt={`Avatar de ${teacher.user.name}`} />
         <div>
           <strong>{teacher.user.name}</strong>
           <span>{teacher.subject}</span>
