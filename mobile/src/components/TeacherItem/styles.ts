@@ -7,19 +7,19 @@ const styles = StyleSheet.create({
     borderColor: '#e6e6f0',
     borderRadius: 8,
     marginBottom: 16,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 
   profile: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 24
+    padding: 24,
   },
 
   avatar: {
     width: 64,
     height: 64,
-    borderRadius: 64/2,
+    borderRadius: 64 / 2,
     backgroundColor: '#eee',
   },
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     color: '#6a6180',
     fontSize: 12,
-    marginTop: 4
+    marginTop: 4,
   },
 
   bio: {
@@ -45,26 +45,67 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     fontSize: 14,
     lineHeight: 24,
-    color: '#6a6180'
+    color: '#6a6180',
+  },
+
+  schedules: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#E6E6F0',
+    padding: 24,
+    marginTop: 24,
+  },
+
+  schedulesLabels: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  schedulesLabelsText: {
+    color: '#9C98A6',
+    fontSize: 12,
+  },
+
+  singleDay: {
+    marginVertical: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#FAFAFC',
+    borderColor: '#E6E6F0',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+
+  singleDayDisabled: {
+    opacity: 0.4,
+  },
+
+  singleDayText: {
+    color: '#6A6180',
+    fontFamily: 'Archivo_700Bold',
+    fontSize: 16,
+    width: '36%',
   },
 
   footer: {
     backgroundColor: '#fafafc',
     padding: 24,
     alignItems: 'center',
-    marginTop: 24
   },
 
   price: {
     fontFamily: 'Poppins_400Regular',
     color: '#6a6180',
-    fontSize: 14
+    fontSize: 14,
   },
 
   priceValue: {
     fontFamily: 'Archivo_700Bold',
     color: '#8257e5',
-    fontSize: 16
+    fontSize: 16,
   },
 
   buttonsContainer: {
@@ -79,11 +120,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8
+    marginRight: 8,
   },
 
   favorited: {
-    backgroundColor: '#e33e3d'
+    backgroundColor: '#e33e3d',
   },
 
   contactButton: {
@@ -94,15 +135,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8
+    marginRight: 8,
   },
 
   contactButtonText: {
     color: '#fff',
     fontFamily: 'Archivo_700Bold',
     fontSize: 16,
-    marginLeft: 16
-  }
+    marginLeft: 16,
+  },
 });
 
 export default styles;
