@@ -1,28 +1,74 @@
 import React from 'react';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Image } from 'react-native';
+
+import backImage from '../assets/images/icons/back.png';
+import logoImage from '../assets/images/logo.png';
 
 import Landing from '../pages/Landing';
 import GiveClasses from '../pages/GiveClasses';
 import TeacherList from '../pages/TeacherList';
 import StudyTabs from './StudyTabs';
+import Profile from '../pages/Profile';
 
 const { Navigator, Screen } = createStackNavigator();
 
 const AppStack: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Navigator screenOptions={{
-        headerShown: false
-      }}>
-        <Screen name="Landing" component={Landing} />
-        <Screen name="GiveClasses" component={GiveClasses} />
-        <Screen name="TeacherList" component={TeacherList} />
-        <Screen name="StudyTabs" component={StudyTabs} />
-      </Navigator>
-    </NavigationContainer>
+    <Navigator
+      screenOptions={{
+        headerBackImage: () => (
+          <Image source={backImage} style={{ width: 25, height: 25 }} />
+        ),
+        headerTitleAlign: 'center',
+        headerTintColor: '#D4C2FF',
+        headerStyle: {
+          backgroundColor: '#774DD6',
+        },
+        headerTitleStyle: {
+          fontSize: 14,
+          fontFamily: 'Archivo_400Regular',
+        },
+        cardShadowEnabled: true,
+        headerRight: () => (
+          <Image
+            source={logoImage}
+            style={{ width: 33, height: 12, marginRight: 16 }}
+          />
+        ),
+      }}
+    >
+      <Screen
+        name="Landing"
+        options={{
+          headerShown: false,
+        }}
+        component={Landing}
+      />
+      <Screen
+        name="GiveClasses"
+        options={{
+          headerTitle: 'Dar aulas',
+        }}
+        component={GiveClasses}
+      />
+      <Screen
+        name="TeacherList"
+        options={{
+          headerTitle: 'Estudar',
+        }}
+        component={TeacherList}
+      />
+      <Screen
+        name="StudyTabs"
+        options={{
+          headerTitle: 'Estudar',
+        }}
+        component={StudyTabs}
+      />
+      <Screen name="Profile" component={Profile} />
+    </Navigator>
   );
-}
+};
 
 export default AppStack;
