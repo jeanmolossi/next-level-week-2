@@ -45,6 +45,16 @@ module.exports = {
           },
         ],
 
+        'react/jsx-filename-extension': [
+          "error",
+          { extensions: ['.ts', '.tsx']}
+        ],
+        'react/style-prop-object': 'off',
+        'react/prop-types': 'off',
+        'react/display-name': 'off',
+        'react/jsx-one-expression-per-line': 'off',
+        'react/jsx-props-no-spreading': 'off',
+
         "import/no-unresolved": "error",
         "import/extensions": ["error", {
           extensions: [".ts", ".tsx", ".js", ".jsx"]
