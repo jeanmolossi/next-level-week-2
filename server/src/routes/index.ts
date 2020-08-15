@@ -10,6 +10,7 @@ import PasswordsController from '../controllers/PasswordsController';
 import ClassesController from '../controllers/ClassesController';
 import ProffysController from '../controllers/ProffysController';
 import UsersAvatarController from '../controllers/UsersAvatarController';
+import FavoritesController from '../controllers/FavoritesController';
 
 import AuthMiddleware from './AuthMiddleware';
 
@@ -25,6 +26,7 @@ const connectionsController = new ConnectionsController();
 const passwordsController = new PasswordsController();
 const proffysController = new ProffysController();
 const usersAvatarController = new UsersAvatarController();
+const favoritesController = new FavoritesController();
 
 appRoutes.post('/users', usersController.create);
 
@@ -51,5 +53,9 @@ appRoutes.post('/connections', connectionsController.create);
 appRoutes.get('/connections', connectionsController.index);
 
 appRoutes.get('/proffys', proffysController.show);
+
+appRoutes.post('/favorites', favoritesController.create);
+appRoutes.delete('/favorites', favoritesController.delete);
+appRoutes.get('/favorites', favoritesController.show);
 
 export default appRoutes;

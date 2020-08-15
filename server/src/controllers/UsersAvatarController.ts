@@ -24,12 +24,16 @@ export default class UsersAvatarController {
 
     if (user.avatar) {
       const avatarFile = path.join(uploadDir, user.avatar);
-      const avatarFileStatus = fs.statSync(avatarFile);
+      try {
+        const avatarFileStatus = fs.statSync(avatarFile);
 
-      if (avatarFileStatus) {
-        fs.unlink(avatarFile, _err => {
-          console.log(`Error on unlink file ${avatarFile}`);
-        });
+        if (avatarFileStatus) {
+          fs.unlink(avatarFile, _err => {
+            if (_err) console.log(`Error on unlink file ${avatarFile}`);
+          });
+        }
+      } catch {
+        console.log('Avatar file status failed');
       }
     }
 

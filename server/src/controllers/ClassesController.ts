@@ -14,10 +14,19 @@ interface ScheduleItem {
 
 export default class ClassesController {
   async show(request: Request, response: Response) {
+    const pagination = request.query;
+
+    let page = Number(pagination.page);
+
+    if (!page) page = 1;
+    const limitPerpage = 2;
+
     const classesRepository = getRepository(Classes);
 
     const classesWithoutFilters = await classesRepository.find({
       relations: ['user', 'schedules'],
+      skip: limitPerpage * page - limitPerpage,
+      take: limitPerpage,
     });
 
     return response.json(classesWithoutFilters);
@@ -29,12 +38,16 @@ export default class ClassesController {
     const subject = filters.subject as string;
     const week_day = filters.week_day as string;
     const time = filters.time as string;
+    let page = Number(filters.page);
 
     if (!filters.week_day || !filters.subject || !filters.time) {
       return response.status(400).json({
         error: 'Missing filters to search classes',
       });
     }
+
+    if (!page) page = 1;
+    const limitPerpage = 2;
 
     const timeInMinutes = convertHourToMinutes(time);
 
@@ -53,6 +66,8 @@ export default class ClassesController {
           })
           .andWhere('schedules.to >= :to', { to: timeInMinutes });
       },
+      skip: limitPerpage * page - limitPerpage,
+      take: limitPerpage,
     });
 
     return response.json(classesFiltered);
