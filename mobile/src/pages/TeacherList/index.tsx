@@ -124,6 +124,8 @@ const TeacherList: React.FC = () => {
           <View style={styles.searchForm}>
             <FilterSelect
               label="Matéria"
+              labelTextStyle={[styles.label, { marginBottom: 4 }]}
+              containerBoxStyle={styles.selectInputContainer}
               placeholder="Qual a matéria"
               options={[
                 { value: 'Artes', label: 'Artes' },
@@ -145,6 +147,8 @@ const TeacherList: React.FC = () => {
               <View style={styles.inputBlock}>
                 <FilterSelect
                   label="Dia da semana"
+                  labelTextStyle={[styles.label, { marginBottom: 4 }]}
+                  containerBoxStyle={styles.selectInputContainer}
                   placeholder="Qual o dia ?"
                   options={[
                     { label: 'Segunda', value: '1' },

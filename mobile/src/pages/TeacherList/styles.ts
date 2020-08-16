@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
+  selectInputContainer: {
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+
   inputGroup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -38,6 +43,7 @@ const styles = StyleSheet.create({
 
   inputBlock: {
     width: '48%',
+    marginVertical: 12,
   },
 
   searchButton: {
