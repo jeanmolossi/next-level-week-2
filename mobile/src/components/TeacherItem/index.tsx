@@ -184,7 +184,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, favorited }) => {
         </Text>
 
         <View style={styles.buttonsContainer}>
-          {teacher.user.id === user.user.id ? (
+          {teacher.user.id === user.id ? (
             <View />
           ) : (
             <RectButton

@@ -17,8 +17,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Archivo_700Bold',
     color: '#fff',
     fontSize: 24,
-    width: 180,
+    width: 220,
     marginVertical: 24,
+  },
+
+  headerDescription: {},
+
+  headerText: {
+    color: '#D4C2FF',
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
   },
 });
 
