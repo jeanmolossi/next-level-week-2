@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useCallback,
   ChangeEvent,
-  FormEvent,
 } from 'react';
 import {
   View,
@@ -17,6 +16,8 @@ import {
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 
 import headerBg from '../../assets/images/give-classes-background.png';
 
@@ -114,23 +115,33 @@ const Profile: React.FC = () => {
     [scheduleItems]
   );
 
-  const handleUpdateAvatar = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        const avatarData = new FormData();
-        const avatar = e.target.files[0];
+  const handleUpdateAvatar = useCallback(async () => {
+    try {
+      const { cancelled, uri } = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
 
-        avatarData.append('avatar', avatar);
+      if (!cancelled) {
+        const avatarData = new FormData();
+
+        avatarData.append('avatar', {
+          name: `profile-${user.id}.jpg`,
+          type: 'image/jpeg',
+          uri: String(uri),
+        });
 
         api.patch(`avatar/update`, avatarData).then(response => {
+          console.log(response.data.avatar);
+
           updateUser({
             avatar: response.data.avatar,
           });
         });
       }
-    },
-    [updateUser]
-  );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [updateUser, user.id]);
 
   const handleUpdateProfile = useCallback(() => {
     const costSanitize = cost || 'R$ 0,00';
@@ -139,40 +150,29 @@ const Profile: React.FC = () => {
     const costSanitized = Number(
       costSanitize.replace(/(r\$|( )|'.')/gim, '').replace(',', '.')
     );
-    const whatsSanitized = whatsSanitize.replace(/(\(|\)|( )|_)/gim, '');
+    const whatsSanitized = whatsSanitize.replace(/(\(|\)|( )|_|(-))/gim, '');
 
-    console.log({
-      name,
-      lastname,
-      email,
-      whatsapp: whatsSanitized,
-      bio,
-      subject,
-      cost: costSanitized,
-      schedules: scheduleItems,
-    });
-
-    // api
-    //   .put(`profile/update`, {
-    //     name,
-    //     lastname,
-    //     email,
-    //     whatsapp: whatsSanitized,
-    //     bio,
-    //     subject,
-    //     cost: costSanitized,
-    //     schedules: scheduleItems,
-    //   })
-    //   .then(response => {
-    //     alert('Atualização salva com sucesso!');
-    //     updateUser({
-    //       name,
-    //       lastname,
-    //       email,
-    //       whatsapp,
-    //       bio,
-    //     });
-    //   });
+    api
+      .put(`profile/update`, {
+        name,
+        lastname,
+        email,
+        whatsapp: whatsSanitized,
+        bio,
+        subject,
+        cost: costSanitized,
+        schedules: scheduleItems,
+      })
+      .then(response => {
+        alert('Atualização salva com sucesso!');
+        updateUser({
+          name,
+          lastname,
+          email,
+          whatsapp,
+          bio,
+        });
+      });
   }, [
     bio,
     cost,
@@ -212,6 +212,17 @@ const Profile: React.FC = () => {
     });
   }, [bio, email, lastname, name, whatsapp]);
 
+  useEffect(() => {
+    async function loadPermissions() {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Desculpe, para atualizar sua foto preciso de permissão');
+      }
+    }
+
+    loadPermissions();
+  }, []);
+
   const parsedAvatar = useMemo(() => {
     return (
       user.avatar || `https://api.adorable.io/avatars/180/placeholderAvatar.png`
@@ -232,7 +243,10 @@ const Profile: React.FC = () => {
         >
           <View style={styles.avatarBox}>
             <Image source={{ uri: parsedAvatar }} style={styles.avatarImage} />
-            <RectButton style={styles.avatarCameraButton}>
+            <RectButton
+              style={styles.avatarCameraButton}
+              onPress={handleUpdateAvatar}
+            >
               <Feather name="camera" size={20} color="#ffffff" />
             </RectButton>
           </View>

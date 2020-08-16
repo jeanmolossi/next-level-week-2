@@ -15,7 +15,7 @@ import api from '../../services/api';
 import styles from './styles';
 
 const Landing: React.FC = () => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { navigate } = useNavigation();
   const [totalConnections, setTotalConnections] = useState(0);
 
@@ -54,7 +54,7 @@ const Landing: React.FC = () => {
             <Image
               style={styles.headerAvatar}
               source={{
-                uri: `https://api.adorable.io/avatars/60/jeanmolossi.png`,
+                uri: user.avatar || undefined,
               }}
             />
             <Text style={styles.profileName}>Jean Carlos</Text>

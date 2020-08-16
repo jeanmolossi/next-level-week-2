@@ -81,10 +81,12 @@ const AuthProvider: React.FC = ({ children }) => {
           })
         );
 
-      setUser((currentData: User) => ({
-        ...currentData,
-        ...newUser,
-      }));
+      setUser((currentData: User) => {
+        return {
+          ...currentData,
+          ...newUser,
+        };
+      });
     },
     [user]
   );
