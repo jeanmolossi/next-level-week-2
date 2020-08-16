@@ -15,6 +15,7 @@ export interface User {
   lastname: string;
   email: string;
   whatsapp: string;
+  bio: string;
   avatar: string | null;
 }
 
@@ -29,16 +30,17 @@ interface LoginDataRequest {
 }
 
 interface AuthContextData {
-  user: AuthUser;
+  user: User;
   loading: boolean;
   signIn(data: LoginDataRequest): Promise<void>;
   signOut(): void;
+  updateUser(newUser: Partial<User>): Promise<void>;
 }
 
 const authContext = createContext({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<AuthUser>({} as AuthUser);
+  const [user, setUser] = useState<User>({} as User);
   const [loading, setLoading] = useState(true);
 
   const signIn = useCallback(async ({ email, password }) => {
@@ -52,10 +54,7 @@ const AuthProvider: React.FC = ({ children }) => {
           ['@proffy:token', JSON.stringify(response.data.token)],
           ['@proffy:user', JSON.stringify(response.data.user)],
         ]).then(() => {
-          setUser({
-            user: response.data.user,
-            token: response.data.token,
-          });
+          setUser(response.data.user);
 
           api.defaults.headers.authorization = `Bearer ${response.data.token}`;
         });
@@ -64,9 +63,31 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const signOut = useCallback(() => {
     AsyncStorage.multiRemove(['@proffy:token', '@proffy:user']).then(() => {
-      setUser({} as AuthUser);
+      setUser({} as User);
+      console.log(user);
     });
   }, []);
+
+  const updateUser = useCallback(
+    async (newUser: Partial<User>) => {
+      const userSession = await AsyncStorage.getItem('@proffy:user');
+
+      if (userSession)
+        await AsyncStorage.setItem(
+          '@proffy:user',
+          JSON.stringify({
+            ...user,
+            ...newUser,
+          })
+        );
+
+      setUser((currentData: User) => ({
+        ...currentData,
+        ...newUser,
+      }));
+    },
+    [user]
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -75,10 +96,7 @@ const AuthProvider: React.FC = ({ children }) => {
         if (tokenKeyValue[1] && userKeyValue[1]) {
           const token = JSON.parse(tokenKeyValue[1] || '');
           const userLoaded = JSON.parse(userKeyValue[1] || '');
-          setUser({
-            user: userLoaded,
-            token,
-          });
+          setUser(userLoaded);
           api.defaults.headers.authorization = `Bearer ${token}`;
         }
       }
@@ -87,7 +105,9 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <authContext.Provider value={{ user, loading, signIn, signOut }}>
+    <authContext.Provider
+      value={{ user, loading, signIn, signOut, updateUser }}
+    >
       {children}
     </authContext.Provider>
   );

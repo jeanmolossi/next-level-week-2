@@ -12,8 +12,7 @@ const StudyTabs: React.FC = () => {
     <Navigator
       tabBarOptions={{
         style: {
-          elevation: 0,
-          shadowOpacity: 0,
+          elevation: 5,
           height: 64,
         },
         tabStyle: {

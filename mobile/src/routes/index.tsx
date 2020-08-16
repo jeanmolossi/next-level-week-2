@@ -23,7 +23,7 @@ const Routes: React.FC = () => {
 
   return (
     <NavigationContainer>
-      {user.token ? <AppStack /> : <LoginStack />}
+      {user && user.id ? <AppStack /> : <LoginStack />}
     </NavigationContainer>
   );
 };

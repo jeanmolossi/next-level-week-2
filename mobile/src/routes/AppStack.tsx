@@ -66,7 +66,13 @@ const AppStack: React.FC = () => {
         }}
         component={StudyTabs}
       />
-      <Screen name="Profile" component={Profile} />
+      <Screen
+        name="Profile"
+        options={{
+          headerTitle: 'Meu perfil',
+        }}
+        component={Profile}
+      />
     </Navigator>
   );
 };
