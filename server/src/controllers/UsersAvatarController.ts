@@ -44,7 +44,7 @@ export default class UsersAvatarController {
 
     const parsedUser = {
       ...user,
-      avatar: `http://localhost:3333/files/${user.avatar}`,
+      avatar: `http://192.168.0.104:3333/files/${user.avatar}`,
     };
 
     return response.json(parsedUser);

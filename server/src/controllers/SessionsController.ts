@@ -35,7 +35,9 @@ export default class SessionsController {
 
     const parsedUser = {
       ...user,
-      avatar: user.avatar ? `http://localhost:3333/files/${user.avatar}` : null,
+      avatar: user.avatar
+        ? `http://192.168.0.104:3333/files/${user.avatar}`
+        : null,
     };
 
     return response.json({ user: parsedUser, token });
