@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Archivo_700Bold',
     color: '#ffffff',
     marginTop: 24,
-    width: 180,
     textAlign: 'center',
+    flexShrink: 1,
   },
 
   description: {

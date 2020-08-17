@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Feather } from '@expo/vector-icons';
 
 import Login from '../pages/Login';
 import ForgotPassword from '../pages/ForgotPassword';
@@ -12,13 +13,41 @@ const LoginStack: React.FC = () => {
   return (
     <Navigator
       screenOptions={{
-        headerShown: false,
+        headerTitle: '',
+        headerBackImage: () => (
+          <Feather name="arrow-left" size={24} color="#9C98A6" />
+        ),
+        headerLeftContainerStyle: {
+          marginLeft: 16,
+        },
+        headerStyle: {
+          backgroundColor: 'transparent',
+          elevation: 0,
+        },
       }}
     >
-      <Screen name="Login" component={Login} />
-      <Screen name="ForgotPassword" component={ForgotPassword} />
+      <Screen
+        name="Login"
+        options={{
+          headerShown: false,
+        }}
+        component={Login}
+      />
+      <Screen
+        name="ForgotPassword"
+        options={{
+          headerShown: false,
+        }}
+        component={ForgotPassword}
+      />
       <Screen name="CreateAccount" component={CreateAccount} />
-      <Screen name="FinishedAction" component={FinishedPage} />
+      <Screen
+        name="FinishedAction"
+        options={{
+          headerShown: false,
+        }}
+        component={FinishedPage}
+      />
     </Navigator>
   );
 };

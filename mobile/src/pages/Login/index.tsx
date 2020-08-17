@@ -28,6 +28,8 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [rememberPassword, setRememberPassword] = useState(true);
+
   const [disabled, setDisabled] = useState(false);
 
   const passwordRef = useRef({} as TextInput);
@@ -35,7 +37,7 @@ const Login: React.FC = () => {
   const handleSubmitLogin = useCallback(async () => {
     setDisabled(true);
 
-    await signIn({ email, password });
+    await signIn({ email, password, rememberPassword });
 
     setDisabled(false);
   }, [email, password, signIn]);
@@ -60,7 +62,7 @@ const Login: React.FC = () => {
           </ImageBackground>
         </View>
 
-        <KeyboardAvoidingView style={styles.loginForm}>
+        <KeyboardAvoidingView style={styles.loginForm} behavior="padding">
           <View style={styles.loginHeader}>
             <Text style={styles.fieldset}>Fazer login</Text>
             <BorderlessButton
@@ -102,10 +104,13 @@ const Login: React.FC = () => {
           </View>
 
           <View style={styles.passwordSection}>
-            <View style={styles.rememberPassword}>
-              <CheckBox />
+            <BorderlessButton
+              style={styles.rememberPassword}
+              onPress={() => setRememberPassword(state => !state)}
+            >
+              <CheckBox value={rememberPassword} />
               <Text style={styles.rememberPasswordText}>Lembrar-me</Text>
-            </View>
+            </BorderlessButton>
             <BorderlessButton
               style={styles.forgotPassword}
               onPress={() => {
@@ -124,7 +129,7 @@ const Login: React.FC = () => {
                 ? styles.signInButtonEnabled
                 : [],
             ]}
-            rippleColor="#24EF7F"
+            enabled={!!email && !!password && !disabled}
           >
             <Text
               style={[

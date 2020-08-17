@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 
 import PageHeader from '../../components/PageHeader';
 import AuthInput from '../../components/AuthInput';
@@ -22,6 +23,7 @@ interface PositionFieldProps {
 
 const GiveClasses: React.FC = () => {
   const { user, updateUser } = useAuth();
+  const { navigate } = useNavigation();
 
   const [whatsapp, setWhatsapp] = useState(user.whatsapp);
   const [bio, setBio] = useState(user.bio);
@@ -113,11 +115,18 @@ const GiveClasses: React.FC = () => {
         cost: costSanitized,
         schedules: scheduleItems,
       })
-      .then(response => {
-        alert('Atualização salva com sucesso!');
+      .then(_response => {
         updateUser({
-          whatsapp: response.data.user.whatsapp,
-          bio: response.data.user.bio,
+          whatsapp: whatsSanitized,
+          bio,
+        });
+
+        navigate('Finished', {
+          title: 'Perfil atualizado!',
+          description:
+            'Seu perfil de aulas foi atualizado com sucesso. Fique atento ao seu whatsapp',
+          textButton: 'Voltar',
+          screen: 'Landing',
         });
       });
   }, [whatsapp, bio, subject, cost, scheduleItems]);
@@ -134,10 +143,18 @@ const GiveClasses: React.FC = () => {
         whatsapp: whatsSanitized,
         schedule: scheduleItems,
       })
-      .then(response => {
+      .then(_response => {
         updateUser({
-          bio: response.data.bio,
-          whatsapp: response.data.whatsapp,
+          bio,
+          whatsapp: whatsSanitized,
+        });
+
+        navigate('Finished', {
+          title: 'Cadastro criado!',
+          description:
+            'Agora você está disponível, na plataforma Proffy, para dar aulas. Obrigado!',
+          textButton: 'Voltar',
+          screen: 'Landing',
         });
       });
   }, [whatsapp, bio, subject, cost, scheduleItems]);
@@ -191,7 +208,11 @@ const GiveClasses: React.FC = () => {
 
           <View style={styles.profileFixData}>
             <Image
-              source={{ uri: user.avatar || undefined }}
+              source={{
+                uri:
+                  user.avatar ||
+                  `https://api.adorable.io/avatars/180/placeholderAvatar.png`,
+              }}
               style={styles.profileFixDataImage}
             />
             <View style={styles.profileFixDataNameSubject}>

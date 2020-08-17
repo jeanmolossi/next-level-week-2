@@ -54,7 +54,9 @@ const Landing: React.FC = () => {
             <Image
               style={styles.headerAvatar}
               source={{
-                uri: user.avatar || undefined,
+                uri:
+                  user.avatar ||
+                  `https://api.adorable.io/avatars/180/placeholderAvatar.png`,
               }}
             />
             <Text style={styles.profileName}>Jean Carlos</Text>

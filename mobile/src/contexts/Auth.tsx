@@ -27,6 +27,7 @@ interface AuthUser {
 interface LoginDataRequest {
   email: string;
   password: string;
+  rememberPassword: boolean;
 }
 
 interface AuthContextData {
@@ -43,23 +44,27 @@ const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User>({} as User);
   const [loading, setLoading] = useState(true);
 
-  const signIn = useCallback(async ({ email, password }) => {
-    api
-      .post(`sessions`, {
-        email,
-        password,
-      })
-      .then(response => {
-        AsyncStorage.multiSet([
-          ['@proffy:token', JSON.stringify(response.data.token)],
-          ['@proffy:user', JSON.stringify(response.data.user)],
-        ]).then(() => {
-          setUser(response.data.user);
+  const signIn = useCallback(
+    async ({ email, password, rememberPassword = true }) => {
+      api
+        .post(`sessions`, {
+          email,
+          password,
+          rememberPassword,
+        })
+        .then(response => {
+          AsyncStorage.multiSet([
+            ['@proffy:token', JSON.stringify(response.data.token)],
+            ['@proffy:user', JSON.stringify(response.data.user)],
+          ]).then(() => {
+            setUser(response.data.user);
 
-          api.defaults.headers.authorization = `Bearer ${response.data.token}`;
+            api.defaults.headers.authorization = `Bearer ${response.data.token}`;
+          });
         });
-      });
-  }, []);
+    },
+    []
+  );
 
   const signOut = useCallback(() => {
     AsyncStorage.multiRemove(['@proffy:token', '@proffy:user']).then(() => {
