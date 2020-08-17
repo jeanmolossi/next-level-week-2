@@ -13,30 +13,9 @@
 
 # :point_right: Screens
 
-<div>
-  <p style="display: flex;">
-    <img src="./docs/images/web/landing-web.png" width="70%" style="object-fit: contain" />
-    <img src="./docs/images/web/landing-web-mobile.png" width="30%" style="object-fit: cover" />
-  </p>
+### You can see more in another branches.
 
-
-  <p style="display: flex;">
-    <img src="./docs/images/web/study-web.png" width="70%" style="object-fit: contain" />
-    <img src="./docs/images/web/study-web-mobile.png" width="30%" style="object-fit: cover" />
-  </p>
-
-
-  <p style="display: flex;">
-    <img src="./docs/images/web/give-classes-web.png" width="70%" style="object-fit: contain" />
-    <img src="./docs/images/web/give-classes-web-mobile.png" width="30%" style="object-fit: cover" />
-  </p>
-
-  <p style="display: flex; justify-content: space-between;">
-    <img src="./docs/images/mobile/landing-mobile.png" width="30%" style="object-fit: contain" />
-    <img src="./docs/images/mobile/study-mobile.png" width="30%" style="object-fit: contain" />
-    <img src="./docs/images/mobile/favorites-mobile.png" width="30%" style="object-fit: cover" />
-  </p>
-</div>
+Go to: [Challenge branch](https://github.com/jeanmolossi/next-level-week-2/tree/challenge)
 
 # :rocket: Features
 
