@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Feather } from '@expo/vector-icons';
 
+import AsyncStorage from '@react-native-community/async-storage';
+import { View, ActivityIndicator } from 'react-native';
 import Login from '../pages/Login';
 import ForgotPassword from '../pages/ForgotPassword';
 import CreateAccount from '../pages/CreateAccount';
 import FinishedPage from '../pages/FinishedPage';
+import FirstEntrySlide from '../pages/FirstEntrySlide';
+import styles from '../components/UnauthInput/styles';
 
 const { Navigator, Screen } = createStackNavigator();
 
 const LoginStack: React.FC = () => {
+  const [firstEntry, setFirstEntry] = useState('isFirstEntry');
+
+  useEffect(() => {
+    async function isFirstEntry() {
+      const firstEntryLoader = await AsyncStorage.getItem('@proffy:firstEntry');
+      // const firstEntryLoader = await AsyncStorage.clear();
+
+      if (firstEntryLoader) {
+        setFirstEntry(JSON.parse(firstEntryLoader));
+      }
+    }
+
+    isFirstEntry();
+  }, []);
+
   return (
     <Navigator
       screenOptions={{
@@ -26,6 +45,16 @@ const LoginStack: React.FC = () => {
         },
       }}
     >
+      {firstEntry === 'isFirstEntry' && (
+        <Screen
+          name="FirstEntry"
+          options={{
+            headerShown: false,
+          }}
+          component={FirstEntrySlide}
+        />
+      )}
+
       <Screen
         name="Login"
         options={{
