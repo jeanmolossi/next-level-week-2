@@ -8,10 +8,12 @@ import AuthInput from '../../components/AuthInput';
 import Select from '../../components/FilterSelect';
 
 import { useAuth } from '../../contexts/Auth';
+import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
+import sanitizePhoneNumber from '../../utils/sanitizePhoneNumber';
+import sanitizeCostValue from '../../utils/sanitizeCostValue';
 
 import styles from './styles';
 import api from '../../services/api';
-import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
 
 interface PositionFieldProps {
   position: number;
@@ -19,7 +21,7 @@ interface PositionFieldProps {
 }
 
 const GiveClasses: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const [whatsapp, setWhatsapp] = useState(user.whatsapp);
   const [bio, setBio] = useState(user.bio);
@@ -30,6 +32,7 @@ const GiveClasses: React.FC = () => {
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 1, from: '08:00', to: '14:00' },
   ]);
+  const [hasSchedule, setHasSchedule] = useState(false);
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [positionField, setPositionField] = useState({} as PositionFieldProps);
@@ -95,6 +98,58 @@ const GiveClasses: React.FC = () => {
     [scheduleItems]
   );
 
+  const handleSaveIfExists = useCallback(() => {
+    const costSanitized = sanitizeCostValue(cost);
+    const whatsSanitized = sanitizePhoneNumber(whatsapp || '(__)');
+
+    api
+      .put(`profile/update`, {
+        name: user.name,
+        lastname: user.lastname,
+        email: user.email,
+        whatsapp: whatsSanitized,
+        bio,
+        subject,
+        cost: costSanitized,
+        schedules: scheduleItems,
+      })
+      .then(response => {
+        alert('Atualização salva com sucesso!');
+        updateUser({
+          whatsapp: response.data.user.whatsapp,
+          bio: response.data.user.bio,
+        });
+      });
+  }, [whatsapp, bio, subject, cost, scheduleItems]);
+
+  const handleCreateNewClass = useCallback(() => {
+    const costSanitized = sanitizeCostValue(cost);
+    const whatsSanitized = sanitizePhoneNumber(whatsapp || '(__)');
+
+    api
+      .post(`classes`, {
+        bio,
+        subject,
+        cost: costSanitized,
+        whatsapp: whatsSanitized,
+        schedule: scheduleItems,
+      })
+      .then(response => {
+        updateUser({
+          bio: response.data.bio,
+          whatsapp: response.data.whatsapp,
+        });
+      });
+  }, [whatsapp, bio, subject, cost, scheduleItems]);
+
+  const handleSaveOrCreate = useCallback(() => {
+    if (!hasSchedule) {
+      handleCreateNewClass();
+      return;
+    }
+    handleSaveIfExists();
+  }, [hasSchedule, handleCreateNewClass, handleSaveIfExists]);
+
   useEffect(() => {
     api.get(`profile`).then(response => {
       const {
@@ -119,6 +174,7 @@ const GiveClasses: React.FC = () => {
       setCost(costToBrl);
 
       setScheduleItems(state => parsedSchedules || state);
+      setHasSchedule(!!schedules);
     });
   }, [bio, whatsapp]);
 
@@ -308,7 +364,10 @@ const GiveClasses: React.FC = () => {
         </View>
 
         <View style={styles.footer}>
-          <RectButton style={styles.footerSaveButton} onPress={() => {}}>
+          <RectButton
+            style={styles.footerSaveButton}
+            onPress={handleSaveOrCreate}
+          >
             <Text style={styles.footerSaveButtonText}>Salvar alterações</Text>
           </RectButton>
         </View>

@@ -19,6 +19,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
+import { useNavigation } from '@react-navigation/native';
 import headerBg from '../../assets/images/give-classes-background.png';
 
 import AuthInput from '../../components/AuthInput';
@@ -27,6 +28,8 @@ import Select from '../../components/FilterSelect';
 import { useAuth } from '../../contexts/Auth';
 import api from '../../services/api';
 import convertMinutesToHourString from '../../utils/convertMinutesToHourString';
+import sanitizePhoneNumber from '../../utils/sanitizePhoneNumber';
+import sanitizeCostValue from '../../utils/sanitizeCostValue';
 
 import styles from './styles';
 
@@ -37,6 +40,7 @@ interface PositionFieldProps {
 
 const Profile: React.FC = () => {
   const { user, updateUser } = useAuth();
+  const { navigate } = useNavigation();
 
   const [name, setName] = useState(user.name);
   const [lastname, setLastname] = useState(user.lastname);
@@ -144,13 +148,8 @@ const Profile: React.FC = () => {
   }, [updateUser, user.id]);
 
   const handleUpdateProfile = useCallback(() => {
-    const costSanitize = cost || 'R$ 0,00';
-    const whatsSanitize = whatsapp || '(__)';
-
-    const costSanitized = Number(
-      costSanitize.replace(/(r\$|( )|'.')/gim, '').replace(',', '.')
-    );
-    const whatsSanitized = whatsSanitize.replace(/(\(|\)|( )|_|(-))/gim, '');
+    const costSanitized = sanitizeCostValue(cost);
+    const whatsSanitized = sanitizePhoneNumber(whatsapp || '(__)');
 
     api
       .put(`profile/update`, {
@@ -164,13 +163,20 @@ const Profile: React.FC = () => {
         schedules: scheduleItems,
       })
       .then(response => {
-        alert('Atualização salva com sucesso!');
         updateUser({
           name,
           lastname,
           email,
           whatsapp,
-          bio,
+          bio: response.data.classes.user.bio,
+        });
+
+        navigate('Finished', {
+          title: 'Perfil atualizado!',
+          description:
+            'Tudo certo, seu perfil foi atualizado na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.',
+          textButton: 'Tudo bem!',
+          screen: 'Landing',
         });
       });
   }, [

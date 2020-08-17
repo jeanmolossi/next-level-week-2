@@ -14,10 +14,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#E6E6F0',
-    padding: 24,
   },
 
-  sectionData: {},
+  sectionData: {
+    padding: 24,
+  },
 
   sectionDataTitle: {
     fontSize: 22,
