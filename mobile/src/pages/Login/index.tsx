@@ -10,6 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import giveClassesBgImg from '../../assets/images/give-classes-background.png';
 import logoImg from '../../assets/images/logo.png';
@@ -22,6 +23,7 @@ import styles from './styles';
 
 const Login: React.FC = () => {
   const { signIn } = useAuth();
+  const { navigate } = useNavigation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,7 +63,12 @@ const Login: React.FC = () => {
         <KeyboardAvoidingView style={styles.loginForm}>
           <View style={styles.loginHeader}>
             <Text style={styles.fieldset}>Fazer login</Text>
-            <BorderlessButton style={styles.newAccButton}>
+            <BorderlessButton
+              style={styles.newAccButton}
+              onPress={() => {
+                navigate('CreateAccount');
+              }}
+            >
               <Text style={styles.newAccButtonText}>Criar uma conta</Text>
             </BorderlessButton>
           </View>
@@ -99,7 +106,12 @@ const Login: React.FC = () => {
               <CheckBox />
               <Text style={styles.rememberPasswordText}>Lembrar-me</Text>
             </View>
-            <BorderlessButton style={styles.forgotPassword}>
+            <BorderlessButton
+              style={styles.forgotPassword}
+              onPress={() => {
+                navigate('ForgotPassword');
+              }}
+            >
               <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
             </BorderlessButton>
           </View>

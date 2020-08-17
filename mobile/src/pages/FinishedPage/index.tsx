@@ -74,7 +74,7 @@ const FinishedPage: React.FC = () => {
 
   const handleFinishedPressed = useCallback(() => {
     navigation.reset({
-      routes: [{ name: 'Landing' }],
+      routes: [{ name: screen }],
       index: 0,
     });
 
