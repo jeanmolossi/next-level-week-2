@@ -10,6 +10,7 @@ import GiveClasses from '../pages/GiveClasses';
 import TeacherList from '../pages/TeacherList';
 import StudyTabs from './StudyTabs';
 import Profile from '../pages/Profile';
+import FinishedPage from '../pages/FinishedPage';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -72,6 +73,13 @@ const AppStack: React.FC = () => {
           headerTitle: 'Meu perfil',
         }}
         component={Profile}
+      />
+      <Screen
+        name="Finished"
+        options={{
+          headerShown: false,
+        }}
+        component={FinishedPage}
       />
     </Navigator>
   );
