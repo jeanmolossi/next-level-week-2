@@ -1,14 +1,16 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 
+import '@database/connections';
+
+import upload from '@configs/upload';
 import router from './routes';
 
 class ServerRunner {
-
   public app: Express;
 
-  constructor(){
-    this.app = express();   
+  constructor() {
+    this.app = express();
 
     this.middlewares();
     this.routes();
@@ -16,16 +18,16 @@ class ServerRunner {
     return this;
   }
 
-  middlewares () {
+  middlewares() {
     this.app.use(express.json());
+    this.app.use('/files', express.static(upload.directory));
     this.app.use(cors());
   }
 
   routes() {
     this.app.use(router);
   }
-
 }
 
 const run = new ServerRunner();
-run.app.listen(3333, () => console.log(`🚀 >> Server started port@3333`))
+run.app.listen(3333, () => console.log('🚀 >> Server started port@3333'));

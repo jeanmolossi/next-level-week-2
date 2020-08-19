@@ -1,0 +1,10 @@
+{
+  "notify": false,
+  "clear": true,
+  "timestamp": true,
+  "ignore": [
+    "../node_modules"
+  ],
+  "transpile-only": true,
+  "respawn": true
+}

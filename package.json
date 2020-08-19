@@ -1,0 +1,23 @@
+{
+  "name": "proffy.v2.0",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "eslint-config",
+    "server",
+    "mobile",
+    "web"
+  ],
+  "repository": "https://github.com/jeanmolossi/next-level-week-2.git",
+  "author": "jeanmolossi <jean.carlosmolossi@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:server": "cd server && yarn start",
+    "start:web": "cd web && yarn start",
+    "start:mobile": "cd mobile && yarn start"
+  },
+  "devDependencies": {
+    "@proffy.v2.0/eslint-config": "*"
+  }
+}

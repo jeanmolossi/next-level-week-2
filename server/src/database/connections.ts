@@ -1,12 +1,8 @@
-import knex from 'knex';
 import path from 'path';
+import { createConnection } from 'typeorm';
 
-const database = knex({
-  client: 'sqlite3',
-  connection: {
-    filename: path.resolve(__dirname, 'database.sqlite')
-  },
-  useNullAsDefault: true,
+createConnection({
+  type: 'sqlite',
+  database: path.join(__dirname, 'database.sqlite'),
+  entities: [path.join(path.resolve(__dirname, '..', 'entities'), '*.ts')],
 });
-
-export default database;
