@@ -991,10 +991,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@expo-google-fonts/archivo@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@expo-google-fonts/archivo/-/archivo-0.1.0.tgz#3ed76d5ef3c6ceb711646fda0a5e6eeda8d08def"
-  integrity sha512-OWevCTcQOKDJHWpLbnDEonGSbs4RjxrahbQY/n7XdZm+ys0NQkdk9mL2m4+Ivpi3RYsJRaWv5ISNCi00OjmfcA==
+"@expo-google-fonts/archivo@^0.4.0":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/archivo/-/archivo-0.4.1.tgz#25d27d296715b0ff851ad7a704d25b6f4a13227e"
+  integrity sha512-uErlsDbsdWul2nLGpJ9xxGUlSf5O80nvkPebp/kF2fyPo8lkPjdHpy1raXZzC2Qp2bAohU3e2PKtR323CkzU4g==
 
 "@expo-google-fonts/poppins@^0.1.0":
   version "0.1.0"
